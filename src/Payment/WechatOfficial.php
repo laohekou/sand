@@ -8,22 +8,18 @@ use Xyu\Sand\SandApp;
 
 class WechatOfficial extends AbstractGateway
 {
+    protected $method;
+
+    public function __construct(string $channelType, string $productId, SandApp $app)
+    {
+        parent::__construct($channelType, $productId, $app);
+    }
 
     public function orderCreate(array $body)
     {
-        $params = [
-            'head' => [
-                'version'     => '1.0',
-                'method'      => 'sandpay.trade.orderCreate',
-                'productId'   => '00002020',
-                'accessType'  => $this->app->getAccessType(),
-                'mid'         => $this->app->getSellerMid(),
-                'plMid'       => $this->app->getPlMid(),
-                'channelType' => $this->app->getChannelType(),
-                'reqTime'     => date('YmdHis', time()),
-            ],
-            'body' => $body,
-        ];
+        $this->method = 'sandpay.trade.pay';
+
+        $params = parent::orderCreate($body);
 
         $data = json_encode($params);
 
@@ -35,17 +31,17 @@ class WechatOfficial extends AbstractGateway
         ];
 
         $resp = $this->app->http
-            ->post($this->app->getUrl() . '/gw/web/order/create', $postData)
+            ->post($this->app->getUrl() . '/gateway/api/order/pay', $postData)
             ->getBody()->getContents();
         $result = $this->parseResult($resp);
 
         if( isset($result['sign']) && isset($result['data']) ) {
 
             if(! $this->app->decrypt->verify($result['data'], $result['sign']) ) {
-                throw new SandException('orderCreate 小程序验证签名失败');
+                throw new SandException('orderPay 公众号验证签名失败');
             }
         }else{
-            throw new SandException('orderCreate 小程序杉德数据失败');
+            throw new SandException('orderPay 公众号杉德数据失败');
         }
 
         return json_decode($result['data'],true);

@@ -8,22 +8,18 @@ use Xyu\Sand\SandApp;
 
 class AppH5 extends AbstractGateway
 {
+    protected $method;
+
+    public function __construct(string $channelType, string $productId, SandApp $app)
+    {
+        parent::__construct($channelType, $productId, $app);
+    }
 
     public function orderCreate(array $body)
     {
-        $params = [
-            'head' => [
-                'version'     => '1.0',
-                'method'      => 'sandpay.trade.orderCreate',
-                'productId'   => '00002000',
-                'accessType'  => $this->app->getAccessType(),
-                'mid'         => $this->app->getSellerMid(),
-                'plMid'       => $this->app->getPlMid(),
-                'channelType' => $this->app->getChannelType(),
-                'reqTime'     => date('YmdHis', time()),
-            ],
-            'body' => $body,
-        ];
+        $this->method = 'sandpay.trade.orderCreate';
+
+        $params = parent::orderCreate($body);
 
         $data = json_encode($params);
 
@@ -42,10 +38,10 @@ class AppH5 extends AbstractGateway
         if( isset($result['sign']) && isset($result['data']) ) {
 
             if(! $this->app->decrypt->verify($result['data'], $result['sign']) ) {
-                throw new SandException('orderCreate 小程序验证签名失败');
+                throw new SandException('orderCreate h5验证签名失败');
             }
         }else{
-            throw new SandException('orderCreate 小程序杉德数据失败');
+            throw new SandException('orderCreate h5杉德数据失败');
         }
 
         return json_decode($result['data'],true);

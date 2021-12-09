@@ -2,7 +2,6 @@
 
 namespace Xyu\Sand\Contract;
 
-use Xyu\Sand\Exception\SandException;
 use Xyu\Sand\SandApp;
 
 abstract class AbstractGateway implements GatewayInterface
@@ -10,14 +9,25 @@ abstract class AbstractGateway implements GatewayInterface
     /**
      * @var string
      */
+    protected $method;
+
+    /**
+     * @var string
+     */
     protected $productId;
+
+    /**
+     * @var string
+     */
+    protected $channelType;
 
     protected $app;
 
-    public function __construct(string $productId, SandApp $app)
+    public function __construct(string $channelType, string $productId, SandApp $app)
     {
         $this->app = $app;
         $this->productId = $productId;
+        $this->channelType = $channelType;
     }
 
     public function orderCreate(array $options)
@@ -25,41 +35,17 @@ abstract class AbstractGateway implements GatewayInterface
         $params = [
             'head' => [
                 'version'     => '1.0',
-                'method'      => 'sandpay.trade.orderCreate',
+                'method'      => $this->method,
                 'productId'   => $this->productId,
                 'accessType'  => $this->app->getAccessType(),
                 'mid'         => $this->app->getSellerMid(),
                 'plMid'       => $this->app->getPlMid(),
-                'channelType' => $this->app->getChannelType(),
+                'channelType' => $this->channelType,
                 'reqTime'     => date('YmdHis', time()),
             ],
             'body' => $options,
         ];
-
-        $data = json_encode($params);
-
-        $postData = [
-            'charset'  => 'utf-8',
-            'signType' => '01',
-            'data'     => $data,
-            'sign'     => $this->app->decrypt->sign($data)
-        ];
-
-        $resp = $this->app->http
-            ->post($this->app->getUrl() . '/gw/web/order/create', $postData)
-            ->getBody()->getContents();
-        $result = $this->parseResult($resp);
-
-        if( isset($result['sign']) && isset($result['data']) ) {
-
-            if(! $this->app->decrypt->verify($result['data'], $result['sign']) ) {
-                throw new SandException('orderCreate 小程序验证签名失败');
-            }
-        }else{
-            throw new SandException('orderCreate 小程序杉德数据失败');
-        }
-
-        return json_decode($result['data'],true);
+        return $params;
     }
 
     public function orderRefund(array $options)
