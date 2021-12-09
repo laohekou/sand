@@ -3,7 +3,10 @@
 namespace Xyu\Sand;
 
 use Hanson\Foundation\Foundation;
+use Xyu\Sand\Payment\AppH5;
+use Xyu\Sand\Payment\Pc;
 use Xyu\Sand\Payment\WechatMini;
+use Xyu\Sand\Payment\WechatOfficial;
 
 /**
  * Class SandApp
@@ -11,6 +14,9 @@ use Xyu\Sand\Payment\WechatMini;
  *
  * @property-read Decrypt $decrypt
  * @property-read WechatMini $wechat_mini
+ * @property-read WechatOfficial $wechat_official
+ * @property-read AppH5 $app_h5
+ * @property-read Pc $pc
  *
  */
 class SandApp extends Foundation
