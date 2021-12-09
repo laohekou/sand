@@ -15,7 +15,6 @@ class ServiceProvider implements ServiceProviderInterface
 
     public function register(Container $pimple)
     {
-
         $pimple['http'] = function (SandApp $app) {
             return new Http($app);
         };

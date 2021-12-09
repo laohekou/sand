@@ -2,7 +2,7 @@
 
 namespace Xyu\Sand\Exception;
 
-class SandException extends \Exception
+class SandException extends \RuntimeException
 {
 
 }

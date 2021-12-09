@@ -3,7 +3,7 @@
 namespace Xyu\Sand\Payment;
 
 use Xyu\Sand\Contract\AbstractGateway;
-use Xyu\Sand\Exception\SandException;
+use Xyu\Sand\Exception\UnauthorizedException;
 use Xyu\Sand\SandApp;
 
 class Pc extends AbstractGateway
@@ -38,38 +38,173 @@ class Pc extends AbstractGateway
         if( isset($result['sign']) && isset($result['data']) ) {
 
             if(! $this->app->decrypt->verify($result['data'], $result['sign']) ) {
-                throw new SandException('orderCreate Pc验证签名失败');
+                throw new UnauthorizedException('orderCreate Pc验证签名失败');
             }
         }else{
-            throw new SandException('orderCreate Pc杉德数据失败');
+            throw new UnauthorizedException('orderCreate Pc杉德数据失败');
         }
 
         return json_decode($result['data'],true);
     }
 
-    public function orderRefund(array $options)
+    public function orderRefund(array $body)
     {
+        $this->method = 'sandpay.trade.refund';
 
+        $params = parent::orderRefund($body);
+
+        $data = json_encode($params);
+
+        $postData = [
+            'charset'  => 'utf-8',
+            'signType' => '01',
+            'data'     => $data,
+            'sign'     => $this->app->decrypt->sign($data)
+        ];
+
+        $resp = $this->app->http
+            ->post($this->app->getUrl() . '/gw/api/order/refund', $postData)
+            ->getBody()->getContents();
+        $result = $this->parseResult($resp);
+
+        if( isset($result['sign']) && isset($result['data']) ) {
+
+            if(! $this->app->decrypt->verify($result['data'], $result['sign']) ) {
+                throw new UnauthorizedException('orderRefund Pc验证签名失败');
+            }
+        }else{
+            throw new UnauthorizedException('orderRefund Pc杉德数据失败');
+        }
+
+        return json_decode($result['data'],true);
     }
 
-    public function orderQuery(array $options)
+    public function orderQuery(array $body)
     {
+        $this->method = 'sandpay.trade.query';
 
+        $params = parent::orderQuery($body);
+
+        $data = json_encode($params);
+
+        $postData = [
+            'charset'  => 'utf-8',
+            'signType' => '01',
+            'data'     => $data,
+            'sign'     => $this->app->decrypt->sign($data)
+        ];
+
+        $resp = $this->app->http
+            ->post($this->app->getUrl() . '/gw/api/order/query', $postData)
+            ->getBody()->getContents();
+        $result = $this->parseResult($resp);
+
+        if( isset($result['sign']) && isset($result['data']) ) {
+
+            if(! $this->app->decrypt->verify($result['data'], $result['sign']) ) {
+                throw new UnauthorizedException('orderQuery Pc验证签名失败');
+            }
+        }else{
+            throw new UnauthorizedException('orderQuery Pc杉德数据失败');
+        }
+
+        return json_decode($result['data'],true);
     }
 
-    public function orderConfirmPay(array $options)
+    public function orderConfirmPay(array $body)
     {
+        $this->method = 'sandpay.trade.confirmPay';
 
+        $params = parent::orderConfirmPay($body);
+
+        $data = json_encode($params);
+
+        $postData = [
+            'charset'  => 'utf-8',
+            'signType' => '01',
+            'data'     => $data,
+            'sign'     => $this->app->decrypt->sign($data)
+        ];
+
+        $resp = $this->app->http
+            ->post($this->app->getUrl() . '/gw/api/order/confirmPay', $postData)
+            ->getBody()->getContents();
+        $result = $this->parseResult($resp);
+
+        if( isset($result['sign']) && isset($result['data']) ) {
+
+            if(! $this->app->decrypt->verify($result['data'], $result['sign']) ) {
+                throw new UnauthorizedException('orderConfirmPay Pc验证签名失败');
+            }
+        }else{
+            throw new UnauthorizedException('orderConfirmPay Pc杉德数据失败');
+        }
+
+        return json_decode($result['data'],true);
     }
 
-    public function orderMcAutoNotice(array $options)
+    public function orderMcAutoNotice(array $body)
     {
+        $this->method = 'sandpay.trade.notify';
 
+        $params = parent::orderMcAutoNotice($body);
+
+        $data = json_encode($params);
+
+        $postData = [
+            'charset'  => 'utf-8',
+            'signType' => '01',
+            'data'     => $data,
+            'sign'     => $this->app->decrypt->sign($data)
+        ];
+
+        $resp = $this->app->http
+            ->post($this->app->getUrl() . '/gateway/api/order/mcAutoNotice', $postData)
+            ->getBody()->getContents();
+        $result = $this->parseResult($resp);
+
+        if( isset($result['sign']) && isset($result['data']) ) {
+
+            if(! $this->app->decrypt->verify($result['data'], $result['sign']) ) {
+                throw new UnauthorizedException('orderMcAutoNotice Pc验证签名失败');
+            }
+        }else{
+            throw new UnauthorizedException('orderMcAutoNotice Pc杉德数据失败');
+        }
+
+        return json_decode($result['data'],true);
     }
 
-    public function clearfileDownload(array $options)
+    public function clearfileDownload(array $body)
     {
+        $this->method = 'sandpay.trade.download';
 
+        $params = parent::clearfileDownload($body);
+
+        $data = json_encode($params);
+
+        $postData = [
+            'charset'  => 'utf-8',
+            'signType' => '01',
+            'data'     => $data,
+            'sign'     => $this->app->decrypt->sign($data)
+        ];
+
+        $resp = $this->app->http
+            ->post($this->app->getUrl() . '/gateway/api/clearfile/download', $postData)
+            ->getBody()->getContents();
+        $result = $this->parseResult($resp);
+
+        if( isset($result['sign']) && isset($result['data']) ) {
+
+            if(! $this->app->decrypt->verify($result['data'], $result['sign']) ) {
+                throw new UnauthorizedException('clearfileDownload Pc验证签名失败');
+            }
+        }else{
+            throw new UnauthorizedException('clearfileDownload Pc杉德数据失败');
+        }
+
+        return json_decode($result['data'],true);
     }
 
 }

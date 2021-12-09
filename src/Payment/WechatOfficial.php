@@ -3,7 +3,7 @@
 namespace Xyu\Sand\Payment;
 
 use Xyu\Sand\Contract\AbstractGateway;
-use Xyu\Sand\Exception\SandException;
+use Xyu\Sand\Exception\UnauthorizedException;
 use Xyu\Sand\SandApp;
 
 class WechatOfficial extends AbstractGateway
@@ -38,38 +38,109 @@ class WechatOfficial extends AbstractGateway
         if( isset($result['sign']) && isset($result['data']) ) {
 
             if(! $this->app->decrypt->verify($result['data'], $result['sign']) ) {
-                throw new SandException('orderPay 公众号验证签名失败');
+                throw new UnauthorizedException('orderPay 公众号验证签名失败');
             }
         }else{
-            throw new SandException('orderPay 公众号杉德数据失败');
+            throw new UnauthorizedException('orderPay 公众号杉德数据失败');
         }
 
         return json_decode($result['data'],true);
     }
 
-    public function orderRefund(array $options)
+    public function orderRefund(array $body)
     {
+        $this->method = 'sandpay.trade.refund';
 
+        $params = parent::orderRefund($body);
+
+        $data = json_encode($params);
+
+        $postData = [
+            'charset'  => 'utf-8',
+            'signType' => '01',
+            'data'     => $data,
+            'sign'     => $this->app->decrypt->sign($data)
+        ];
+
+        $resp = $this->app->http
+            ->post($this->app->getUrl() . '/gateway/api/order/refund', $postData)
+            ->getBody()->getContents();
+        $result = $this->parseResult($resp);
+
+        if( isset($result['sign']) && isset($result['data']) ) {
+
+            if(! $this->app->decrypt->verify($result['data'], $result['sign']) ) {
+                throw new UnauthorizedException('orderRefund 公众号验证签名失败');
+            }
+        }else{
+            throw new UnauthorizedException('orderRefund 公众号杉德数据失败');
+        }
+
+        return json_decode($result['data'],true);
     }
 
-    public function orderQuery(array $options)
+    public function orderQuery(array $body)
     {
+        $this->method = 'sandpay.trade.query';
 
+        $params = parent::orderQuery($body);
+
+        $data = json_encode($params);
+
+        $postData = [
+            'charset'  => 'utf-8',
+            'signType' => '01',
+            'data'     => $data,
+            'sign'     => $this->app->decrypt->sign($data)
+        ];
+
+        $resp = $this->app->http
+            ->post($this->app->getUrl() . '/gateway/api/order/query', $postData)
+            ->getBody()->getContents();
+        $result = $this->parseResult($resp);
+
+        if( isset($result['sign']) && isset($result['data']) ) {
+
+            if(! $this->app->decrypt->verify($result['data'], $result['sign']) ) {
+                throw new UnauthorizedException('orderQuery 公众号验证签名失败');
+            }
+        }else{
+            throw new UnauthorizedException('orderQuery 公众号杉德数据失败');
+        }
+
+        return json_decode($result['data'],true);
     }
 
-    public function orderConfirmPay(array $options)
+    public function clearfileDownload(array $body)
     {
+        $this->method = 'sandpay.trade.download';
 
-    }
+        $params = parent::clearfileDownload($body);
 
-    public function orderMcAutoNotice(array $options)
-    {
+        $data = json_encode($params);
 
-    }
+        $postData = [
+            'charset'  => 'utf-8',
+            'signType' => '01',
+            'data'     => $data,
+            'sign'     => $this->app->decrypt->sign($data)
+        ];
 
-    public function clearfileDownload(array $options)
-    {
+        $resp = $this->app->http
+            ->post($this->app->getUrl() . '/gateway/api/clearfile/download', $postData)
+            ->getBody()->getContents();
+        $result = $this->parseResult($resp);
 
+        if( isset($result['sign']) && isset($result['data']) ) {
+
+            if(! $this->app->decrypt->verify($result['data'], $result['sign']) ) {
+                throw new UnauthorizedException('clearfileDownload 公众号验证签名失败');
+            }
+        }else{
+            throw new UnauthorizedException('clearfileDownload 公众号杉德数据失败');
+        }
+
+        return json_decode($result['data'],true);
     }
 
 }

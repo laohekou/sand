@@ -15,4 +15,11 @@ $ composer require xyu/sand
 php bin/hyperf.php vendor:publish xyu/sand
 ```
 
+```php
+Hyperf  调用：
+$factory = make(\Xyu\Sand\Hyperf\Factory::class)->make()->wechat_mini->orderCreate([]);
+Laravel 调用：
+$app = (new \Xyu\Sand\SandApp(config('sand-pay')))->make()->wechat_mini->orderCreate([]);
+```
+
 https://github.com/laohekou/sand
