@@ -14,7 +14,7 @@
         "hyperf/guzzle": "~2.2.0",
         "hyperf/di": "~2.2.0",
         "ext-json": "*",
-        "ext-swoole": ">=4.7"
+        "ext-swoole": ">=4.5"
     },
     "require-dev": {
         "hyperf/utils": "~2.2.0"
