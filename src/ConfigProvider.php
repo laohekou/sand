@@ -24,7 +24,7 @@ class ConfigProvider
             // 组件默认配置文件，即执行命令后会把 source 的对应的文件复制为 destination 对应的的文件
             'publish' => [
                 [
-                    'id' => 'tt-app',
+                    'id' => 'sand-app',
                     'description' => '杉徳配置文件.', // 描述
                     // 建议默认配置放在 publish 文件夹中，文件命名和组件名称相同
                     'source' => __DIR__.'/../config/sand-pay.php',  // 对应的配置文件路径
