@@ -1,6 +1,6 @@
 {
     "name": "xyu/sand",
-    "description": "简单的杉德sdk",
+    "description": "简单的杉德sdk包",
     "type": "library",
     "authors": [
         {
