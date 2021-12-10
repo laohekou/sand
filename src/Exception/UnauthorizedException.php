@@ -4,13 +4,14 @@
 namespace Xyu\Sand\Exception;
 
 use Throwable;
+use Xyu\Sand\Contract\GatewayInterface;
 
 class UnauthorizedException extends SandException
 {
 
     protected $statusCode = 401;
 
-    public function __construct(string $message, Throwable $previous = null)
+    public function __construct(string $message, GatewayInterface $gateway = null, Throwable $previous = null)
     {
         parent::__construct($message, 401, $previous);
     }

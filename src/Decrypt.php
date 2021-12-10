@@ -22,7 +22,7 @@ class Decrypt
             $pkey = AES::privateKey($privateKey,$privatePwdKey);
             return AES::sign($plainText, $pkey);
         }catch (\Exception $e) {
-            throw new \Exception('sign未通过: ' . $e->getMessage());
+            throw new $e;
         }
     }
 
@@ -34,7 +34,7 @@ class Decrypt
             $key = AES::publicKey($publicKey);
             return AES::verify($plainText, $key, $sign);
         }catch (\Exception $e) {
-            throw new \Exception('verify未通过: ' . $e->getMessage());
+            throw new $e;
         }
     }
 

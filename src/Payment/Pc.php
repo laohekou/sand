@@ -10,6 +10,8 @@ class Pc extends AbstractGateway
 {
     protected $method;
 
+    protected $relativeUrl;
+
     public function __construct(string $channelType, string $productId, SandApp $app)
     {
         parent::__construct($channelType, $productId, $app);
@@ -19,192 +21,190 @@ class Pc extends AbstractGateway
     {
         $this->method = 'sandpay.trade.orderCreate';
 
+        $this->relativeUrl = '/gw/web/order/create';
+
         $params = parent::orderCreate($body);
 
         $data = json_encode($params);
+        unset($params);
 
-        $postData = [
-            'charset'  => 'utf-8',
-            'signType' => '01',
-            'data'     => $data,
-            'sign'     => $this->app->decrypt->sign($data)
-        ];
-
-        $resp = $this->app->http
-            ->post($this->app->getUrl() . '/gw/web/order/create', $postData)
-            ->getBody()->getContents();
-        $result = $this->parseResult($resp);
-
-        if( isset($result['sign']) && isset($result['data']) ) {
-
-            if(! $this->app->decrypt->verify($result['data'], $result['sign']) ) {
-                throw new UnauthorizedException('orderCreate Pc验证签名失败');
-            }
-        }else{
-            throw new UnauthorizedException('orderCreate Pc杉德数据失败');
+        try {
+            $postData = [
+                'charset'  => 'utf-8',
+                'signType' => '01',
+                'data'     => $data,
+                'sign'     => $this->app->decrypt->sign($data)
+            ];
+            $result = $this->curlPost($postData);
+            return $result;
+        }catch (\Throwable $e) {
+            throw new $e;
         }
-
-        return json_decode($result['data'],true);
     }
 
     public function orderRefund(array $body)
     {
         $this->method = 'sandpay.trade.refund';
 
+        $this->relativeUrl = '/gw/api/order/refund';
+
         $params = parent::orderRefund($body);
 
         $data = json_encode($params);
+        unset($params);
 
-        $postData = [
-            'charset'  => 'utf-8',
-            'signType' => '01',
-            'data'     => $data,
-            'sign'     => $this->app->decrypt->sign($data)
-        ];
+        try {
+            $postData = [
+                'charset'  => 'utf-8',
+                'signType' => '01',
+                'data'     => $data,
+                'sign'     => $this->app->decrypt->sign($data)
+            ];
+            $result = $this->curlPost($postData);
+            if( isset($result['sign']) && isset($result['data']) ) {
 
-        $resp = $this->app->http
-            ->post($this->app->getUrl() . '/gw/api/order/refund', $postData)
-            ->getBody()->getContents();
-        $result = $this->parseResult($resp);
-
-        if( isset($result['sign']) && isset($result['data']) ) {
-
-            if(! $this->app->decrypt->verify($result['data'], $result['sign']) ) {
-                throw new UnauthorizedException('orderRefund Pc验证签名失败');
+                if(! $this->verify($result['data'], $result['sign']) ) {
+                    throw new UnauthorizedException('orderRefund PC验证签名失败', $this);
+                }
+            }else{
+                throw new UnauthorizedException('orderRefund PC杉德数据失败', $this);
             }
-        }else{
-            throw new UnauthorizedException('orderRefund Pc杉德数据失败');
+            return json_decode($result['data'],true);
+        }catch (\Throwable $e) {
+            throw new $e;
         }
-
-        return json_decode($result['data'],true);
     }
 
     public function orderQuery(array $body)
     {
         $this->method = 'sandpay.trade.query';
 
+        $this->relativeUrl = '/gw/api/order/query';
+
         $params = parent::orderQuery($body);
 
         $data = json_encode($params);
+        unset($params);
 
-        $postData = [
-            'charset'  => 'utf-8',
-            'signType' => '01',
-            'data'     => $data,
-            'sign'     => $this->app->decrypt->sign($data)
-        ];
+        try {
+            $postData = [
+                'charset'  => 'utf-8',
+                'signType' => '01',
+                'data'     => $data,
+                'sign'     => $this->app->decrypt->sign($data)
+            ];
+            $result = $this->curlPost($postData);
+            if( isset($result['sign']) && isset($result['data']) ) {
 
-        $resp = $this->app->http
-            ->post($this->app->getUrl() . '/gw/api/order/query', $postData)
-            ->getBody()->getContents();
-        $result = $this->parseResult($resp);
-
-        if( isset($result['sign']) && isset($result['data']) ) {
-
-            if(! $this->app->decrypt->verify($result['data'], $result['sign']) ) {
-                throw new UnauthorizedException('orderQuery Pc验证签名失败');
+                if(! $this->verify($result['data'], $result['sign']) ) {
+                    throw new UnauthorizedException('orderQuery PC验证签名失败', $this);
+                }
+            }else{
+                throw new UnauthorizedException('orderQuery PC杉德数据失败', $this);
             }
-        }else{
-            throw new UnauthorizedException('orderQuery Pc杉德数据失败');
+            return json_decode($result['data'],true);
+        }catch (\Throwable $e) {
+            throw new $e;
         }
-
-        return json_decode($result['data'],true);
     }
 
     public function orderConfirmPay(array $body)
     {
         $this->method = 'sandpay.trade.confirmPay';
 
+        $this->relativeUrl = '/gw/api/order/confirmPay';
+
         $params = parent::orderConfirmPay($body);
 
         $data = json_encode($params);
+        unset($params);
 
-        $postData = [
-            'charset'  => 'utf-8',
-            'signType' => '01',
-            'data'     => $data,
-            'sign'     => $this->app->decrypt->sign($data)
-        ];
+        try {
+            $postData = [
+                'charset'  => 'utf-8',
+                'signType' => '01',
+                'data'     => $data,
+                'sign'     => $this->app->decrypt->sign($data)
+            ];
+            $result = $this->curlPost($postData);
+            if( isset($result['sign']) && isset($result['data']) ) {
 
-        $resp = $this->app->http
-            ->post($this->app->getUrl() . '/gw/api/order/confirmPay', $postData)
-            ->getBody()->getContents();
-        $result = $this->parseResult($resp);
-
-        if( isset($result['sign']) && isset($result['data']) ) {
-
-            if(! $this->app->decrypt->verify($result['data'], $result['sign']) ) {
-                throw new UnauthorizedException('orderConfirmPay Pc验证签名失败');
+                if(! $this->verify($result['data'], $result['sign']) ) {
+                    throw new UnauthorizedException('orderQuery PC验证签名失败', $this);
+                }
+            }else{
+                throw new UnauthorizedException('orderQuery PC杉德数据失败', $this);
             }
-        }else{
-            throw new UnauthorizedException('orderConfirmPay Pc杉德数据失败');
+            return json_decode($result['data'],true);
+        }catch (\Throwable $e) {
+            throw new $e;
         }
-
-        return json_decode($result['data'],true);
     }
 
     public function orderMcAutoNotice(array $body)
     {
         $this->method = 'sandpay.trade.notify';
 
+        $this->relativeUrl = '/gateway/api/order/mcAutoNotice';
+
         $params = parent::orderMcAutoNotice($body);
 
         $data = json_encode($params);
+        unset($params);
 
-        $postData = [
-            'charset'  => 'utf-8',
-            'signType' => '01',
-            'data'     => $data,
-            'sign'     => $this->app->decrypt->sign($data)
-        ];
+        try {
+            $postData = [
+                'charset'  => 'utf-8',
+                'signType' => '01',
+                'data'     => $data,
+                'sign'     => $this->app->decrypt->sign($data)
+            ];
+            $result = $this->curlPost($postData);
+            if( isset($result['sign']) && isset($result['data']) ) {
 
-        $resp = $this->app->http
-            ->post($this->app->getUrl() . '/gateway/api/order/mcAutoNotice', $postData)
-            ->getBody()->getContents();
-        $result = $this->parseResult($resp);
-
-        if( isset($result['sign']) && isset($result['data']) ) {
-
-            if(! $this->app->decrypt->verify($result['data'], $result['sign']) ) {
-                throw new UnauthorizedException('orderMcAutoNotice Pc验证签名失败');
+                if(! $this->verify($result['data'], $result['sign']) ) {
+                    throw new UnauthorizedException('orderQuery PC验证签名失败', $this);
+                }
+            }else{
+                throw new UnauthorizedException('orderQuery PC杉德数据失败', $this);
             }
-        }else{
-            throw new UnauthorizedException('orderMcAutoNotice Pc杉德数据失败');
+            return json_decode($result['data'],true);
+        }catch (\Throwable $e) {
+            throw new $e;
         }
-
-        return json_decode($result['data'],true);
     }
 
     public function clearfileDownload(array $body)
     {
         $this->method = 'sandpay.trade.download';
 
+        $this->relativeUrl = '/gateway/api/clearfile/download';
+
         $params = parent::clearfileDownload($body);
 
         $data = json_encode($params);
+        unset($params);
 
-        $postData = [
-            'charset'  => 'utf-8',
-            'signType' => '01',
-            'data'     => $data,
-            'sign'     => $this->app->decrypt->sign($data)
-        ];
+        try {
+            $postData = [
+                'charset'  => 'utf-8',
+                'signType' => '01',
+                'data'     => $data,
+                'sign'     => $this->app->decrypt->sign($data)
+            ];
+            $result = $this->curlPost($postData);
+            if( isset($result['sign']) && isset($result['data']) ) {
 
-        $resp = $this->app->http
-            ->post($this->app->getUrl() . '/gateway/api/clearfile/download', $postData)
-            ->getBody()->getContents();
-        $result = $this->parseResult($resp);
-
-        if( isset($result['sign']) && isset($result['data']) ) {
-
-            if(! $this->app->decrypt->verify($result['data'], $result['sign']) ) {
-                throw new UnauthorizedException('clearfileDownload Pc验证签名失败');
+                if(! $this->verify($result['data'], $result['sign']) ) {
+                    throw new UnauthorizedException('orderQuery PC验证签名失败', $this);
+                }
+            }else{
+                throw new UnauthorizedException('orderQuery PC杉德数据失败', $this);
             }
-        }else{
-            throw new UnauthorizedException('clearfileDownload Pc杉德数据失败');
+            return json_decode($result['data'],true);
+        }catch (\Throwable $e) {
+            throw new $e;
         }
-
-        return json_decode($result['data'],true);
     }
 
 }

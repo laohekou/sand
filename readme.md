@@ -12,7 +12,10 @@ $ composer require xyu/sand
 
 发布配置 vendor:publish
 ```bash
+Hyperf
 php bin/hyperf.php vendor:publish xyu/sand
+Laravel
+php artisan vendor:publish
 ```
 
 ```php

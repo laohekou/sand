@@ -2,6 +2,7 @@
 
 namespace Xyu\Sand\Contract;
 
+use Xyu\Sand\Exception\UnauthorizedException;
 use Xyu\Sand\SandApp;
 
 abstract class AbstractGateway implements GatewayInterface
@@ -10,6 +11,11 @@ abstract class AbstractGateway implements GatewayInterface
      * @var string
      */
     protected $method;
+
+    /**
+     * @var string
+     */
+    protected $relativeUrl;
 
     /**
      * @var string
@@ -78,6 +84,7 @@ abstract class AbstractGateway implements GatewayInterface
     }
 
     /**
+     * 商户自主重发异步通知
      * @param array $options
      * @return array
      * Author: xiongy
@@ -96,6 +103,41 @@ abstract class AbstractGateway implements GatewayInterface
     public function clearfileDownload(array $options)
     {
         return $this->structureData($options);
+    }
+
+    /**
+     * 验证通知通用接口
+     * @param string $data
+     * @param string $sign
+     * @return bool
+     * @throws \Throwable
+     * Author: xiongy
+     */
+    public function verify(string $data, string $sign)
+    {
+        try {
+            if(! $this->app->decrypt->verify($data, $sign) ) {
+                return false;
+            }
+            return true;
+        }catch (\Throwable $e) {
+            throw new $e;
+        }
+    }
+
+
+    public function curlPost(array $data)
+    {
+        try {
+            $resp = $this->app->http
+                    ->post($this->app->getUrl() . $this->relativeUrl, $data)
+                    ->getBody()->getContents();
+            $result = $this->parseResult($resp);
+            return $result;
+        }catch (\Throwable $e) {
+            throw new UnauthorizedException($this->relativeUrl . ' ' . $e->getMessage());
+        }
+
     }
 
     /**

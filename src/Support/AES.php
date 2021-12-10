@@ -2,6 +2,8 @@
 
 namespace Xyu\Sand\Support;
 
+use Xyu\Sand\Exception\AesException;
+
 class AES
 {
     public $publicKey;
@@ -13,7 +15,7 @@ class AES
             $resource = openssl_pkey_get_private($pkey);
             $result   = openssl_sign($plainText, $sign, $resource);
             openssl_free_key($resource);
-            if (!$result) throw new \Exception('sign error');
+            if (!$result) throw new AesException('sign error');
             return base64_encode($sign);
         } catch (\Throwable $e) {
             throw $e;
@@ -28,7 +30,7 @@ class AES
         openssl_free_key($resource);
 
         if (!$result) {
-            throw new \Exception('签名验证未通过,plainText:' . $plainText . '。sign:' . $sign);
+            throw new AesException('签名验证未通过,plainText:' . $plainText . '。sign:' . $sign);
         }
 
         return $result;
@@ -40,16 +42,16 @@ class AES
         try {
             $file = file_get_contents($public_key_path);
             if (!$file) {
-                throw new \Exception('getPublicKey::file_get_contents ERROR');
+                throw new AesException('getPublicKey::file_get_contents ERROR');
             }
             $cert   = chunk_split(base64_encode($file), 64, "\n");
             $cert   = "-----BEGIN CERTIFICATE-----\n" . $cert . "-----END CERTIFICATE-----\n";
             $res    = openssl_pkey_get_public($cert);
             $detail = openssl_pkey_get_details($res);
             openssl_free_key($res);
-//            if (!$detail) {
-//                throw new \Exception('getPublicKey::openssl_pkey_get_details ERROR');
-//            }
+            if (!$detail) {
+                throw new AesException('getPublicKey::openssl_pkey_get_details ERROR');
+            }
             return $detail['key'];
         } catch (\Throwable $e) {
             throw $e;
@@ -62,10 +64,10 @@ class AES
         try {
             $file = file_get_contents($privateKey);
             if (!$file) {
-                throw new \Exception('getPrivateKey::file_get_contents');
+                throw new AesException('getPrivateKey::file_get_contents');
             }
             if (!openssl_pkcs12_read($file, $cert, $privatePwdKey)) {
-                throw new \Exception('getPrivateKey::openssl_pkcs12_read ERROR');
+                throw new AesException('getPrivateKey::openssl_pkcs12_read ERROR');
             }
             return $cert['pkey'];
         } catch (\Throwable $e) {
