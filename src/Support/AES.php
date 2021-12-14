@@ -3,7 +3,6 @@
 namespace Xyu\Sand\Support;
 
 use Xyu\Sand\Exception\AesException;
-use Xyu\Sand\Exception\SandException;
 
 class AES
 {
@@ -18,12 +17,7 @@ class AES
             if (!$result) throw new AesException('sign error');
             return base64_encode($sign);
         } catch (\Throwable $e) {
-            $newException = $e instanceof SandException ? $e : new AesException(
-                $e->getMessage(),
-                null,
-                $e
-            );
-            throw $newException;
+            throw $e;
         }
     }
 
@@ -42,7 +36,7 @@ class AES
     }
 
     // 公钥
-    public function publicKey(string $public_key_path)
+    public static function publicKey(string $public_key_path)
     {
         try {
             $file = file_get_contents($public_key_path);
@@ -59,12 +53,7 @@ class AES
             }
             return $detail['key'];
         } catch (\Throwable $e) {
-            $newException = $e instanceof SandException ? $e : new AesException(
-                $e->getMessage(),
-                null,
-                $e
-            );
-            throw $newException;
+            throw $e;
         }
     }
 
@@ -74,19 +63,14 @@ class AES
         try {
             $file = file_get_contents($privateKey);
             if (!$file) {
-                throw new AesException('getPrivateKey::file_get_contents');
+                throw new AesException('getPrivateKey::file_get_contents ERROR');
             }
             if (!openssl_pkcs12_read($file, $cert, $privatePwdKey)) {
                 throw new AesException('getPrivateKey::openssl_pkcs12_read ERROR');
             }
             return $cert['pkey'];
         } catch (\Throwable $e) {
-            $newException = $e instanceof SandException ? $e : new AesException(
-                $e->getMessage(),
-                null,
-                $e
-            );
-            throw $newException;
+            throw $e;
         }
     }
 }

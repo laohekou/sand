@@ -40,7 +40,7 @@ class AppH5 extends AbstractGateway
             return $result;
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new UnauthorizedException(
-                $e->getMessage(),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
                 $this,
                 $e
             );
@@ -78,7 +78,7 @@ class AppH5 extends AbstractGateway
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new UnauthorizedException(
-                $e->getMessage(),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
                 $this,
                 $e
             );
@@ -116,7 +116,7 @@ class AppH5 extends AbstractGateway
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new UnauthorizedException(
-                $e->getMessage(),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
                 $this,
                 $e
             );
@@ -154,7 +154,7 @@ class AppH5 extends AbstractGateway
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new UnauthorizedException(
-                $e->getMessage(),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
                 $this,
                 $e
             );
@@ -192,7 +192,7 @@ class AppH5 extends AbstractGateway
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new UnauthorizedException(
-                $e->getMessage(),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
                 $this,
                 $e
             );
@@ -230,7 +230,7 @@ class AppH5 extends AbstractGateway
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new UnauthorizedException(
-                $e->getMessage(),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
                 $this,
                 $e
             );

@@ -2,7 +2,6 @@
 
 namespace Xyu\Sand\Contract;
 
-use Xyu\Sand\Exception\UnauthorizedException;
 use Xyu\Sand\SandApp;
 
 abstract class AbstractGateway implements GatewayInterface
@@ -121,7 +120,7 @@ abstract class AbstractGateway implements GatewayInterface
             }
             return true;
         }catch (\Throwable $e) {
-            throw new $e;
+            throw $e;
         }
     }
 
@@ -135,9 +134,8 @@ abstract class AbstractGateway implements GatewayInterface
             $result = $this->parseResult($resp);
             return $result;
         }catch (\Throwable $e) {
-            throw new UnauthorizedException($this->relativeUrl . ' ' . $e->getMessage());
+            throw new \Exception('杉德接口请求失败：'. $e->getMessage());
         }
-
     }
 
     /**
