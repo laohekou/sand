@@ -2,6 +2,8 @@
 
 namespace Xyu\Sand;
 
+use Xyu\Sand\Exception\AesException;
+use Xyu\Sand\Exception\SandException;
 use Xyu\Sand\Support\AES;
 
 class Decrypt
@@ -22,7 +24,12 @@ class Decrypt
             $pkey = AES::privateKey($privateKey,$privatePwdKey);
             return AES::sign($plainText, $pkey);
         }catch (\Exception $e) {
-            throw new $e;
+            $newException = $e instanceof SandException ? $e : new AesException(
+                $e->getMessage(),
+                $this,
+                $e
+            );
+            throw $newException;
         }
     }
 
@@ -34,7 +41,12 @@ class Decrypt
             $key = AES::publicKey($publicKey);
             return AES::verify($plainText, $key, $sign);
         }catch (\Exception $e) {
-            throw new $e;
+            $newException = $e instanceof SandException ? $e : new AesException(
+                $e->getMessage(),
+                $this,
+                $e
+            );
+            throw $newException;
         }
     }
 

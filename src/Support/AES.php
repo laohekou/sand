@@ -3,10 +3,10 @@
 namespace Xyu\Sand\Support;
 
 use Xyu\Sand\Exception\AesException;
+use Xyu\Sand\Exception\SandException;
 
 class AES
 {
-    public $publicKey;
 
     // 私钥加签
     public static function sign(string $plainText, string $pkey)
@@ -18,7 +18,12 @@ class AES
             if (!$result) throw new AesException('sign error');
             return base64_encode($sign);
         } catch (\Throwable $e) {
-            throw $e;
+            $newException = $e instanceof SandException ? $e : new AesException(
+                $e->getMessage(),
+                null,
+                $e
+            );
+            throw $newException;
         }
     }
 
@@ -30,7 +35,7 @@ class AES
         openssl_free_key($resource);
 
         if (!$result) {
-            throw new AesException('签名验证未通过,plainText:' . $plainText . '。sign:' . $sign);
+            throw new AesException('公钥验签未通过,plainText:' . $plainText . '。sign:' . $sign);
         }
 
         return $result;
@@ -54,7 +59,12 @@ class AES
             }
             return $detail['key'];
         } catch (\Throwable $e) {
-            throw $e;
+            $newException = $e instanceof SandException ? $e : new AesException(
+                $e->getMessage(),
+                null,
+                $e
+            );
+            throw $newException;
         }
     }
 
@@ -71,7 +81,12 @@ class AES
             }
             return $cert['pkey'];
         } catch (\Throwable $e) {
-            throw $e;
+            $newException = $e instanceof SandException ? $e : new AesException(
+                $e->getMessage(),
+                null,
+                $e
+            );
+            throw $newException;
         }
     }
 }

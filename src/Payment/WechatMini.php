@@ -3,6 +3,7 @@
 namespace Xyu\Sand\Payment;
 
 use Xyu\Sand\Contract\AbstractGateway;
+use Xyu\Sand\Exception\SandException;
 use Xyu\Sand\Exception\UnauthorizedException;
 use Xyu\Sand\SandApp;
 
@@ -46,7 +47,12 @@ class WechatMini extends AbstractGateway
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
-            throw new $e;
+            $newException = $e instanceof SandException ? $e : new UnauthorizedException(
+                $e->getMessage(),
+                $this,
+                $e
+            );
+            throw $newException;
         }
     }
 
@@ -79,7 +85,12 @@ class WechatMini extends AbstractGateway
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
-            throw new $e;
+            $newException = $e instanceof SandException ? $e : new UnauthorizedException(
+                $e->getMessage(),
+                $this,
+                $e
+            );
+            throw $newException;
         }
     }
 
@@ -112,7 +123,12 @@ class WechatMini extends AbstractGateway
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
-            throw new $e;
+            $newException = $e instanceof SandException ? $e : new UnauthorizedException(
+                $e->getMessage(),
+                $this,
+                $e
+            );
+            throw $newException;
         }
     }
 
@@ -145,7 +161,12 @@ class WechatMini extends AbstractGateway
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
-            throw new $e;
+            $newException = $e instanceof SandException ? $e : new UnauthorizedException(
+                $e->getMessage(),
+                $this,
+                $e
+            );
+            throw $newException;
         }
     }
 
