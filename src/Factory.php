@@ -2,7 +2,7 @@
 
 namespace Xyu\Sand;
 
-use Xyu\Sand\Exception\SandException;
+use Xyu\Sand\Exception\SandAppException;
 
 class Factory
 {
@@ -20,7 +20,7 @@ class Factory
         $name = $name ?? $this->getDefaultDriver();
 
         if (empty($this->config['drivers'][$name])) {
-            throw new SandException("Undefined {$name} configuration");
+            throw new SandAppException("Undefined {$name} configuration");
         }
 
         $config = $config ?? $this->config['drivers'][$name];
@@ -45,6 +45,6 @@ class Factory
             return call_user_func_array([$app, $name], $arguments);
         }
 
-        throw new SandException("Undefined {$name} method!");
+        throw new SandAppException("Undefined {$name} method!");
     }
 }

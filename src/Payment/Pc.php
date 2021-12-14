@@ -130,10 +130,10 @@ class Pc extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new UnauthorizedException('orderQuery PC验证签名失败', $this);
+                    throw new UnauthorizedException('orderConfirmPay PC验证签名失败', $this);
                 }
             }else{
-                throw new UnauthorizedException('orderQuery PC杉德数据失败', $this);
+                throw new UnauthorizedException('orderConfirmPay PC杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
@@ -163,10 +163,10 @@ class Pc extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new UnauthorizedException('orderQuery PC验证签名失败', $this);
+                    throw new UnauthorizedException('orderMcAutoNotice PC验证签名失败', $this);
                 }
             }else{
-                throw new UnauthorizedException('orderQuery PC杉德数据失败', $this);
+                throw new UnauthorizedException('orderMcAutoNotice PC杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
@@ -196,10 +196,10 @@ class Pc extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new UnauthorizedException('orderQuery PC验证签名失败', $this);
+                    throw new UnauthorizedException('clearfileDownload PC验证签名失败', $this);
                 }
             }else{
-                throw new UnauthorizedException('orderQuery PC杉德数据失败', $this);
+                throw new UnauthorizedException('clearfileDownload PC杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {

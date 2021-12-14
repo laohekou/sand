@@ -39,10 +39,10 @@ class WechatOfficial extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new UnauthorizedException('orderPay 公众号验证签名失败', $this);
+                    throw new UnauthorizedException('orderCreate 公众号验证签名失败', $this);
                 }
             }else{
-                throw new UnauthorizedException('orderPay 公众号杉德数据失败', $this);
+                throw new UnauthorizedException('orderCreate 公众号杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {

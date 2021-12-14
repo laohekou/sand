@@ -28,15 +28,15 @@ class ServiceProvider implements ServiceProviderInterface
         };
 
         $pimple['wechat_official'] = function (SandApp $app) {
-            return new WechatOfficial('08','00002020',$app);
+            return new WechatOfficial('08','00002020', $app);
         };
 
         $pimple['app_h5'] = function (SandApp $app) {
-            return new AppH5('08','00002000',$app);
+            return new AppH5('08','00002000', $app);
         };
 
         $pimple['pc'] = function (SandApp $app) {
-            return new Pc('07','00002000',$app);
+            return new Pc('07','00002000', $app);
         };
     }
 }

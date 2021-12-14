@@ -21,8 +21,8 @@ php artisan vendor:publish
 ```php
 Hyperf  调用：
 $factory = make(\Xyu\Sand\Hyperf\Factory::class)->make()->wechat_mini->orderCreate([]);
-Laravel 调用：
-$app = (new \Xyu\Sand\SandApp(config('sand-pay')))->make()->wechat_mini->orderCreate([]);
+fpm相关框架 调用：
+$app = (new \Xyu\Sand\SandApp(config('sand-pay')))->wechat_mini->orderCreate([]);
 ```
 
 https://github.com/laohekou/sand

@@ -39,10 +39,10 @@ class WechatMini extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new UnauthorizedException('orderPay 小程序验证签名失败', $this);
+                    throw new UnauthorizedException('orderCreate 小程序验证签名失败', $this);
                 }
             }else{
-                throw new UnauthorizedException('orderPay 小程序杉德数据失败', $this);
+                throw new UnauthorizedException('orderCreate 小程序杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
