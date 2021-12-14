@@ -2,7 +2,7 @@
 杉德 sdk
 
 * 支持 `composer` 安装
-* 支持 laravel/lumen、hyperf 框架
+* 支持 hyperf、laravel/lumen、tp 等框架
 
 ## 安装 - install
 
