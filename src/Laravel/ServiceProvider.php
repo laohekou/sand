@@ -1,16 +1,18 @@
 <?php
 
-namespace Xyu\Sand;
+namespace Xyu\Sand\Laravel;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use Laravel\Lumen\Application;
+use Xyu\Sand\Factory;
+use Xyu\Sand\SandApp;
 
 /**
- * Class LaravelServiceProvider
+ * Class ServiceProvider
  *
- * @package Xyu\BaiduAIP
+ * @package Xyu\Sand
  */
-class LaravelServiceProvider extends ServiceProvider
+class ServiceProvider extends LaravelServiceProvider
 {
     /**
      * Setup the config.
