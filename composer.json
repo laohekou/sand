@@ -2,24 +2,31 @@
     "name": "xyu/sand",
     "description": "简单的杉德sdk",
     "type": "library",
+    "license": "MIT",
     "authors": [
         {
-            "name": "xiongy",
+            "name": "xyu",
             "email": "15810265860@163.com"
         }
     ],
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.1",
         "hanson/foundation-sdk": "^5.0",
-        "hyperf/guzzle": "~2.2.0",
-        "hyperf/di": "~2.2.0",
+        "ext-swoole": ">=4.5",
         "ext-json": "*",
-        "ext-swoole": ">=4.5"
+        "ext-openssl": "*",
+        "ext-curl": "*"
     },
     "require-dev": {
         "hyperf/utils": "~2.2.0"
     },
-    "license": "MIT",
+    "config": {
+        "sort-packages": true
+    },
+    "suggest": {
+        "hyperf/guzzle": "~2.2.0",
+        "hyperf/di": "~2.2.0"
+    },
     "autoload": {
         "psr-4": {
             "Xyu\\Sand\\": "src/"
@@ -31,11 +38,17 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Xyu\\Sand\\LaravelServiceProvider"
+                "Xyu\\Sand\\Laravel\\ServiceProvider"
             ]
         },
         "hyperf": {
             "config": "Xyu\\Sand\\ConfigProvider"
+        }
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://mirrors.aliyun.com/composer/"
         }
     }
 }
