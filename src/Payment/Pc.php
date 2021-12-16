@@ -3,8 +3,8 @@
 namespace Xyu\Sand\Payment;
 
 use Xyu\Sand\Contract\AbstractGateway;
+use Xyu\Sand\Exception\BusinessException;
 use Xyu\Sand\Exception\SandException;
-use Xyu\Sand\Exception\UnauthorizedException;
 use Xyu\Sand\SandApp;
 
 class Pc extends AbstractGateway
@@ -39,7 +39,7 @@ class Pc extends AbstractGateway
             $result = $this->curlPost($postData);
             return $result;
         }catch (\Throwable $e) {
-            $newException = $e instanceof SandException ? $e : new UnauthorizedException(
+            $newException = $e instanceof SandException ? $e : new BusinessException(
                 json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
                 $this,
                 $e
@@ -70,14 +70,14 @@ class Pc extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new UnauthorizedException('orderRefund PC验证签名失败', $this);
+                    throw new BusinessException('orderRefund PC验证签名失败', $this);
                 }
             }else{
-                throw new UnauthorizedException('orderRefund PC杉德数据失败', $this);
+                throw new BusinessException('orderRefund PC杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
-            $newException = $e instanceof SandException ? $e : new UnauthorizedException(
+            $newException = $e instanceof SandException ? $e : new BusinessException(
                 json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
                 $this,
                 $e
@@ -108,14 +108,14 @@ class Pc extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new UnauthorizedException('orderQuery PC验证签名失败', $this);
+                    throw new BusinessException('orderQuery PC验证签名失败', $this);
                 }
             }else{
-                throw new UnauthorizedException('orderQuery PC杉德数据失败', $this);
+                throw new BusinessException('orderQuery PC杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
-            $newException = $e instanceof SandException ? $e : new UnauthorizedException(
+            $newException = $e instanceof SandException ? $e : new BusinessException(
                 json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
                 $this,
                 $e
@@ -146,14 +146,14 @@ class Pc extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new UnauthorizedException('orderConfirmPay PC验证签名失败', $this);
+                    throw new BusinessException('orderConfirmPay PC验证签名失败', $this);
                 }
             }else{
-                throw new UnauthorizedException('orderConfirmPay PC杉德数据失败', $this);
+                throw new BusinessException('orderConfirmPay PC杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
-            $newException = $e instanceof SandException ? $e : new UnauthorizedException(
+            $newException = $e instanceof SandException ? $e : new BusinessException(
                 json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
                 $this,
                 $e
@@ -184,14 +184,14 @@ class Pc extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new UnauthorizedException('orderMcAutoNotice PC验证签名失败', $this);
+                    throw new BusinessException('orderMcAutoNotice PC验证签名失败', $this);
                 }
             }else{
-                throw new UnauthorizedException('orderMcAutoNotice PC杉德数据失败', $this);
+                throw new BusinessException('orderMcAutoNotice PC杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
-            $newException = $e instanceof SandException ? $e : new UnauthorizedException(
+            $newException = $e instanceof SandException ? $e : new BusinessException(
                 json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
                 $this,
                 $e
@@ -222,14 +222,14 @@ class Pc extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new UnauthorizedException('clearfileDownload PC验证签名失败', $this);
+                    throw new BusinessException('clearfileDownload PC验证签名失败', $this);
                 }
             }else{
-                throw new UnauthorizedException('clearfileDownload PC杉德数据失败', $this);
+                throw new BusinessException('clearfileDownload PC杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
-            $newException = $e instanceof SandException ? $e : new UnauthorizedException(
+            $newException = $e instanceof SandException ? $e : new BusinessException(
                 json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
                 $this,
                 $e

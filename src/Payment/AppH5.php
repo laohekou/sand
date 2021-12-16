@@ -3,8 +3,8 @@
 namespace Xyu\Sand\Payment;
 
 use Xyu\Sand\Contract\AbstractGateway;
+use Xyu\Sand\Exception\BusinessException;
 use Xyu\Sand\Exception\SandException;
-use Xyu\Sand\Exception\UnauthorizedException;
 use Xyu\Sand\SandApp;
 
 class AppH5 extends AbstractGateway
@@ -39,7 +39,7 @@ class AppH5 extends AbstractGateway
             $result = $this->curlPost($postData);
             return $result;
         }catch (\Throwable $e) {
-            $newException = $e instanceof SandException ? $e : new UnauthorizedException(
+            $newException = $e instanceof SandException ? $e : new BusinessException(
                 json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
                 $this,
                 $e
@@ -70,14 +70,14 @@ class AppH5 extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new UnauthorizedException('orderRefund H5验证签名失败', $this);
+                    throw new BusinessException('orderRefund H5验证签名失败', $this);
                 }
             }else{
-                throw new UnauthorizedException('orderRefund H5杉德数据失败', $this);
+                throw new BusinessException('orderRefund H5杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
-            $newException = $e instanceof SandException ? $e : new UnauthorizedException(
+            $newException = $e instanceof SandException ? $e : new BusinessException(
                 json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
                 $this,
                 $e
@@ -108,14 +108,14 @@ class AppH5 extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new UnauthorizedException('orderQuery H5验证签名失败', $this);
+                    throw new BusinessException('orderQuery H5验证签名失败', $this);
                 }
             }else{
-                throw new UnauthorizedException('orderQuery H5杉德数据失败', $this);
+                throw new BusinessException('orderQuery H5杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
-            $newException = $e instanceof SandException ? $e : new UnauthorizedException(
+            $newException = $e instanceof SandException ? $e : new BusinessException(
                 json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
                 $this,
                 $e
@@ -146,14 +146,14 @@ class AppH5 extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new UnauthorizedException('orderConfirmPay H5验证签名失败', $this);
+                    throw new BusinessException('orderConfirmPay H5验证签名失败', $this);
                 }
             }else{
-                throw new UnauthorizedException('orderConfirmPay H5杉德数据失败', $this);
+                throw new BusinessException('orderConfirmPay H5杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
-            $newException = $e instanceof SandException ? $e : new UnauthorizedException(
+            $newException = $e instanceof SandException ? $e : new BusinessException(
                 json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
                 $this,
                 $e
@@ -184,14 +184,14 @@ class AppH5 extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new UnauthorizedException('orderMcAutoNotice H5验证签名失败', $this);
+                    throw new BusinessException('orderMcAutoNotice H5验证签名失败', $this);
                 }
             }else{
-                throw new UnauthorizedException('orderMcAutoNotice H5杉德数据失败', $this);
+                throw new BusinessException('orderMcAutoNotice H5杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
-            $newException = $e instanceof SandException ? $e : new UnauthorizedException(
+            $newException = $e instanceof SandException ? $e : new BusinessException(
                 json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
                 $this,
                 $e
@@ -222,14 +222,14 @@ class AppH5 extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new UnauthorizedException('clearfileDownload H5验证签名失败', $this);
+                    throw new BusinessException('clearfileDownload H5验证签名失败', $this);
                 }
             }else{
-                throw new UnauthorizedException('clearfileDownload H5杉德数据失败', $this);
+                throw new BusinessException('clearfileDownload H5杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
-            $newException = $e instanceof SandException ? $e : new UnauthorizedException(
+            $newException = $e instanceof SandException ? $e : new BusinessException(
                 json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
                 $this,
                 $e

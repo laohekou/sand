@@ -3,8 +3,8 @@
 namespace Xyu\Sand\Payment;
 
 use Xyu\Sand\Contract\AbstractGateway;
+use Xyu\Sand\Exception\BusinessException;
 use Xyu\Sand\Exception\SandException;
-use Xyu\Sand\Exception\UnauthorizedException;
 use Xyu\Sand\SandApp;
 
 class WechatMini extends AbstractGateway
@@ -40,14 +40,14 @@ class WechatMini extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new UnauthorizedException('orderCreate 小程序验证签名失败', $this);
+                    throw new BusinessException('orderCreate 小程序验证签名失败', $this);
                 }
             }else{
-                throw new UnauthorizedException('orderCreate 小程序杉德数据失败', $this);
+                throw new BusinessException('orderCreate 小程序杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
-            $newException = $e instanceof SandException ? $e : new UnauthorizedException(
+            $newException = $e instanceof SandException ? $e : new BusinessException(
                 json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()])]),
                 $this,
                 $e
@@ -78,14 +78,14 @@ class WechatMini extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new UnauthorizedException('orderRefund 小程序验证签名失败', $this);
+                    throw new BusinessException('orderRefund 小程序验证签名失败', $this);
                 }
             }else{
-                throw new UnauthorizedException('orderRefund 小程序杉德数据失败', $this);
+                throw new BusinessException('orderRefund 小程序杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
-            $newException = $e instanceof SandException ? $e : new UnauthorizedException(
+            $newException = $e instanceof SandException ? $e : new BusinessException(
                 json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
                 $this,
                 $e
@@ -116,14 +116,14 @@ class WechatMini extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new UnauthorizedException('orderQuery 小程序验证签名失败', $this);
+                    throw new BusinessException('orderQuery 小程序验证签名失败', $this);
                 }
             }else{
-                throw new UnauthorizedException('orderQuery 小程序杉德数据失败', $this);
+                throw new BusinessException('orderQuery 小程序杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
-            $newException = $e instanceof SandException ? $e : new UnauthorizedException(
+            $newException = $e instanceof SandException ? $e : new BusinessException(
                 json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
                 $this,
                 $e
@@ -154,14 +154,14 @@ class WechatMini extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new UnauthorizedException('clearfileDownload 小程序验证签名失败', $this);
+                    throw new BusinessException('clearfileDownload 小程序验证签名失败', $this);
                 }
             }else{
-                throw new UnauthorizedException('clearfileDownload 小程序杉德数据失败', $this);
+                throw new BusinessException('clearfileDownload 小程序杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
-            $newException = $e instanceof SandException ? $e : new UnauthorizedException(
+            $newException = $e instanceof SandException ? $e : new BusinessException(
                 json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
                 $this,
                 $e

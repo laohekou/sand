@@ -6,7 +6,7 @@ namespace Xyu\Sand\Exception;
 use Throwable;
 use Xyu\Sand\Contract\GatewayInterface;
 
-class UnauthorizedException extends SandException
+class BusinessException extends SandException
 {
 
     protected $statusCode = 401;
