@@ -25,6 +25,14 @@ class SandApp extends Foundation
         ServiceProvider::class,
     ];
 
+    public function __construct($config)
+    {
+        if (!isset($config['debug'])) {
+            $config['debug'] = $this->config['debug'] ?? false;
+        }
+        parent::__construct($config);
+    }
+
     public function getSellerMid()
     {
         return $this->getConfig('seller_mid');
@@ -38,11 +46,6 @@ class SandApp extends Foundation
     public function getPlMid()
     {
         return $this->getConfig('pl_mid');
-    }
-
-    public function getChannelType()
-    {
-        return $this->getConfig('channel_type');
     }
 
     public function getUrl()

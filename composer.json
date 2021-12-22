@@ -21,6 +21,7 @@
         "hyperf/utils": "~2.2.0"
     },
     "config": {
+        "optimize-autoloader": true,
         "sort-packages": true
     },
     "suggest": {
