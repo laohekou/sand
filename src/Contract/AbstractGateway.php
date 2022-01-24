@@ -177,8 +177,10 @@ abstract class AbstractGateway implements GatewayInterface
                     )
                     ->post($this->app->getUrl() . $this->relativeUrl, $data)
                     ->getBody()->getContents();
-            $result = $this->parseResult($resp);
-            return $result;
+            if($resp) {
+                $result = $this->parseResult($resp);
+                return $result;
+            }
         }catch (\Throwable $e) {
             throw new \Exception('杉德接口请求失败：'. $e->getMessage());
         }
