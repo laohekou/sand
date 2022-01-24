@@ -17,24 +17,19 @@ class Factory
 
     public function make(?string $name = null, ?array $config = null)
     {
-        $name = $name ?? $this->getDefaultDriver();
+        $name = $name ?? 'default';
 
-        if (empty($this->config['drivers'][$name])) {
+        if (empty($this->config[$name])) {
             throw new SandAppException("Undefined {$name} configuration");
         }
 
-        $config = $config ?? $this->config['drivers'][$name];
+        $config = $config ?? $this->config[$name];
 
         if (!isset($config['debug'])) {
             $config['debug'] = $this->config['debug'] ?? false;
         }
 
         return $this->drivers[$name] ?? $this->drivers[$name] = new SandApp($config);
-    }
-
-    public function getDefaultDriver()
-    {
-        return $this->config['default'] ?? 'default';
     }
 
     public function __call($name, $arguments)

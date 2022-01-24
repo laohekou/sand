@@ -2,6 +2,7 @@
 
 namespace Xyu\Sand\Contract;
 
+use GuzzleHttp\Client;
 use Xyu\Sand\SandApp;
 
 abstract class AbstractGateway implements GatewayInterface
@@ -105,6 +106,48 @@ abstract class AbstractGateway implements GatewayInterface
     }
 
     /**
+     * 交易结果异步通知接口
+     * @param string $params
+     * @return false|string
+     * @throws \Throwable
+     * Author: xyu
+     */
+    public function noticePay(string $params)
+    {
+        try {
+            $params =
+            $data = json_decode($params,true);
+            $this->verify($params, $data['data']['sign']);
+            return json_encode([
+                'respCode' => '000000'
+            ]);
+        }catch (\Throwable $e) {
+            throw $e;
+        }
+    }
+
+
+    /**
+     * 交易退货异步通知接口
+     * @param string $params
+     * @return false|string
+     * @throws \Throwable
+     * Author: xyu
+     */
+    public function noticeRefund(string $params)
+    {
+        try {
+            $data = json_decode($params,true);
+            $this->verify($params, $data['data']['sign']);
+            return json_encode([
+                'respCode' => '000000'
+            ]);
+        }catch (\Throwable $e) {
+            throw $e;
+        }
+    }
+
+    /**
      * 验证通知通用接口
      * @param string $data
      * @param string $sign
@@ -129,6 +172,9 @@ abstract class AbstractGateway implements GatewayInterface
     {
         try {
             $resp = $this->app->http
+                    ->setClient(
+                        new Client(['timeout' => $this->app->getTimeout()])
+                    )
                     ->post($this->app->getUrl() . $this->relativeUrl, $data)
                     ->getBody()->getContents();
             $result = $this->parseResult($resp);

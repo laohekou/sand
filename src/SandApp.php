@@ -33,6 +33,11 @@ class SandApp extends Foundation
         parent::__construct($config);
     }
 
+    public function getTimeout()
+    {
+        return $this->getConfig('timeout') ?: 5;
+    }
+
     public function getSellerMid()
     {
         return $this->getConfig('seller_mid');
