@@ -20,9 +20,9 @@ php artisan vendor:publish
 
 ```php
 Hyperf  调用：
-$app = make(\Xyu\Sand\Hyperf\Factory::class)->make()->wechat_mini->orderCreate([]);
+$app = sand_pay()->wechat_mini->orderCreate([]);
 fpm相关框架 调用：
-$app = (new \Xyu\Sand\SandApp(config('sand-pay')))->wechat_mini->orderCreate([]);
+$app = sand(config('sand-pay'))->wechat_mini->orderCreate([]);
 ```
 
 https://github.com/laohekou/sand

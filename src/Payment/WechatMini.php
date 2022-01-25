@@ -26,15 +26,12 @@ class WechatMini extends AbstractGateway
 
         $params = parent::orderCreate($body);
 
-        $data = json_encode($params);
-        unset($params);
-
         try {
             $postData = [
                 'charset'  => 'utf-8',
                 'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
+                'data'     => $params,
+                'sign'     => $this->app->decrypt->sign(json_encode($params))
             ];
             $result = $this->curlPost($postData);
             if( isset($result['sign']) && isset($result['data']) ) {
@@ -64,15 +61,12 @@ class WechatMini extends AbstractGateway
 
         $params = parent::orderRefund($body);
 
-        $data = json_encode($params);
-        unset($params);
-
         try {
             $postData = [
                 'charset'  => 'utf-8',
                 'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
+                'data'     => $params,
+                'sign'     => $this->app->decrypt->sign(json_encode($params))
             ];
             $result = $this->curlPost($postData);
             if( isset($result['sign']) && isset($result['data']) ) {
@@ -102,15 +96,12 @@ class WechatMini extends AbstractGateway
 
         $params = parent::orderQuery($body);
 
-        $data = json_encode($params);
-        unset($params);
-
         try {
             $postData = [
                 'charset'  => 'utf-8',
                 'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
+                'data'     => $params,
+                'sign'     => $this->app->decrypt->sign(json_encode($params))
             ];
             $result = $this->curlPost($postData);
             if( isset($result['sign']) && isset($result['data']) ) {
@@ -140,15 +131,12 @@ class WechatMini extends AbstractGateway
 
         $params = parent::clearfileDownload($body);
 
-        $data = json_encode($params);
-        unset($params);
-
         try {
             $postData = [
                 'charset'  => 'utf-8',
                 'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
+                'data'     => $params,
+                'sign'     => $this->app->decrypt->sign(json_encode($params))
             ];
             $result = $this->curlPost($postData);
             if( isset($result['sign']) && isset($result['data']) ) {
