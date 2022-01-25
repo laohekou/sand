@@ -25,12 +25,12 @@ class WechatMini extends AbstractGateway
         $this->relativeUrl = '/gateway/api/order/pay';
 
         $params = parent::orderCreate($body);
-
+        $json = json_encode($params);
         try {
             $postData = [
                 'charset'  => 'utf-8',
                 'signType' => '01',
-                'data'     => json_encode($params),
+                'data'     => '"' . $json .'"',
                 'sign'     => $this->app->decrypt->sign(json_encode($params))
             ];
             get_logger('SAND-REQUEST','api-log')->info(json_encode($postData));
