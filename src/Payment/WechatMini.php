@@ -33,6 +33,7 @@ class WechatMini extends AbstractGateway
                 'data'     => $params,
                 'sign'     => $this->app->decrypt->sign(json_encode($params))
             ];
+            get_logger('SAND-REQUEST','api-log')->info(json_encode($postData));
             $result = $this->curlPost($postData);
             if( isset($result['sign']) && isset($result['data']) ) {
 
