@@ -42,6 +42,7 @@ class WechatMini extends AbstractGateway
             }else{
                 throw new BusinessException('orderCreate 小程序杉德数据失败', $this);
             }
+            // timeStamp package paySign appId signType nonceStr 等参数返回
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
