@@ -30,7 +30,7 @@ class WechatMini extends AbstractGateway
             $postData = [
                 'charset'  => 'utf-8',
                 'signType' => '01',
-                'data'     => $params,
+                'data'     => json_encode($params),
                 'sign'     => $this->app->decrypt->sign(json_encode($params))
             ];
             get_logger('SAND-REQUEST','api-log')->info(json_encode($postData));
