@@ -171,12 +171,25 @@ abstract class AbstractGateway implements GatewayInterface
     public function curlPost(array $data)
     {
         try {
-            $resp = $this->app->http
+            if (class_exists('Hyperf\Guzzle\CoroutineHandler')) {
+                $resp = make(\Hyperf\Guzzle\ClientFactory::class)->create([
+                    'timeout' => $this->app->getTimeout(),
+                    'verify' => false,
+                ])->post(
+                    $this->app->getUrl() . $this->relativeUrl,
+                    [
+                        'form_params' => $data,
+                        'headers' => [],
+                    ]
+                )->getBody()->getContents();
+            }else{
+                $resp = $this->app->http
                     ->setClient(
                         new Client(['timeout' => $this->app->getTimeout()])
                     )
                     ->post($this->app->getUrl() . $this->relativeUrl, $data)
                     ->getBody()->getContents();
+            }
             if($resp) {
                 $result = $this->parseResult($resp);
                 return $result;
