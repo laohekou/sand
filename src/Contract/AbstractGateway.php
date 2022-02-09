@@ -193,6 +193,7 @@ abstract class AbstractGateway implements GatewayInterface
             get_logger('SAND-RESP','api-log')->info(json_encode([$resp]));
             if($resp) {
                 $result = $this->parseResult($resp);
+                get_logger('SAND-RESP-01','api-log')->info(json_encode([$result]));
                 return $result;
             }
             return null;

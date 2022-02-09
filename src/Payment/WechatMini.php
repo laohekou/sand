@@ -25,13 +25,16 @@ class WechatMini extends AbstractGateway
         $this->relativeUrl = '/gateway/api/order/pay';
 
         $params = parent::orderCreate($body);
-        $json = json_encode($params);
+
+        $data = json_encode($params);
+        unset($params);
+
         try {
             $postData = [
                 'charset'  => 'utf-8',
                 'signType' => '01',
-                'data'     => $json,
-                'sign'     => $this->app->decrypt->sign($json)
+                'data'     => $data,
+                'sign'     => $this->app->decrypt->sign($data)
             ];
             $result = $this->curlPost($postData);
             if( isset($result['sign']) && isset($result['data']) ) {
