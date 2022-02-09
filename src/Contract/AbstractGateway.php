@@ -190,6 +190,7 @@ abstract class AbstractGateway implements GatewayInterface
                     ->post($this->app->getUrl() . $this->relativeUrl, $data)
                     ->getBody()->getContents();
             }
+            get_logger('SAND-RESP','api-log')->info($resp);
             if($resp) {
                 $result = $this->parseResult($resp);
                 return $result;
