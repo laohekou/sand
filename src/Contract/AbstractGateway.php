@@ -178,7 +178,7 @@ abstract class AbstractGateway implements GatewayInterface
                 ])->post(
                     $this->app->getUrl() . $this->relativeUrl,
                     [
-                        'form_params' => $data,
+                        'json' => $data,
                         'headers' => [],
                     ]
                 )->getBody()->getContents();
