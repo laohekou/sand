@@ -106,24 +106,41 @@ abstract class AbstractGateway implements GatewayInterface
     }
 
     /**
-     * 交易结果异步通知接口
-     * @param string $params
-     * @return false|string
+     * 支付异步通知接口
+     * @param array $params
+     * @return array
      * @throws \Throwable
      * Author: xyu
      */
-    public function noticePay(string $params)
+    public function notify(array $params)
     {
         try {
-            $params =
-            $data = json_decode($params,true);
-            $this->verify($params, $data['data']['sign']);
-            return json_encode([
-                'respCode' => '000000'
-            ]);
+            if(! $this->verify($params['data'], $params['sign']) ) {
+                throw new \Exception('支付异步通知数据签名失败');
+            }
+
+            $data = json_decode($params['data'],true);
+            $respMsg = $this->success($data);
+            if(true !== $respMsg) {
+                throw new \Exception($respMsg);
+            }
+
+            return [
+                'params' => $params,
+                'data' => $data
+            ];
         }catch (\Throwable $e) {
             throw $e;
         }
+    }
+
+
+    public function success(array $data)
+    {
+        if(isset($data['head']['respCode']) && $data['head']['respCode'] === '000000') {
+            return true;
+        }
+        return $data['head']['respMsg'] ?? '未知错误';
     }
 
 
@@ -190,10 +207,8 @@ abstract class AbstractGateway implements GatewayInterface
                     ->post($this->app->getUrl() . $this->relativeUrl, $data)
                     ->getBody()->getContents();
             }
-            get_logger('SAND-RESP','api-log')->info($resp);
             if($resp) {
                 $result = $this->parseResult($resp);
-                get_logger('SAND-RESP--01','api-log')->info(json_encode($result,JSON_UNESCAPED_UNICODE));
 
                 return $result;
             }
