@@ -132,7 +132,7 @@ abstract class AbstractGateway implements GatewayInterface
                 'data' => $data
             ];
         }catch (\Throwable $e) {
-            throw new \Exception($e->getMessage());
+            throw $e;
         }
     }
 
