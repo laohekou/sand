@@ -115,6 +115,7 @@ abstract class AbstractGateway implements GatewayInterface
     public function notify(array $params)
     {
         try {
+            throw new \Exception('支付异步通知数据签名失败');
             if(! $this->verify($params['data'], $params['sign']) ) {
                 throw new \Exception('支付异步通知数据签名失败');
             }
