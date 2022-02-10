@@ -120,6 +120,8 @@ abstract class AbstractGateway implements GatewayInterface
             }
 
             $data = json_decode($params['data'],true);
+            get_logger('NOTIFY-SAND-01','api-log')->info(json_encode($data,JSON_UNESCAPED_UNICODE));
+
             $respMsg = $this->respCode($data);
             if(true !== $respMsg) {
                 throw new \Exception($respMsg);
@@ -130,7 +132,7 @@ abstract class AbstractGateway implements GatewayInterface
                 'data' => $data
             ];
         }catch (\Throwable $e) {
-            throw $e;
+            throw new \Exception($e->getMessage());
         }
     }
 
