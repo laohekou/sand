@@ -120,7 +120,7 @@ abstract class AbstractGateway implements GatewayInterface
             }
 
             $data = json_decode($params['data'],true);
-            $respMsg = $this->success($data);
+            $respMsg = $this->respCode($data);
             if(true !== $respMsg) {
                 throw new \Exception($respMsg);
             }
@@ -135,7 +135,7 @@ abstract class AbstractGateway implements GatewayInterface
     }
 
 
-    public function success(array $data)
+    public function respCode(array $data)
     {
         if(isset($data['head']['respCode']) && $data['head']['respCode'] === '000000') {
             return true;
