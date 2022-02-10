@@ -116,7 +116,7 @@ abstract class AbstractGateway implements GatewayInterface
     {
         try {
             if(! $this->verify($params['data'], $params['sign']) ) {
-                throw new \Exception('支付异步通知数据签名失败');
+                throw new \Exception(($data['body']['orderCode'] ?? '') . ' 支付异步通知数据签名失败');
             }
 
             $data = json_decode($params['data'],true);
@@ -125,7 +125,7 @@ abstract class AbstractGateway implements GatewayInterface
 
             $respMsg = $this->respCode($data);
             if(true !== $respMsg) {
-                throw new \Exception($respMsg);
+                throw new \Exception(($data['body']['orderCode'] ?? '') . $respMsg);
             }
 
             return [
