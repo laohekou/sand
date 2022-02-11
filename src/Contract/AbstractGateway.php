@@ -106,7 +106,7 @@ abstract class AbstractGateway implements GatewayInterface
     }
 
     /**
-     * 支付异步通知接口
+     * 交易结果异步通知接口
      * @param array $params
      * @return array
      * @throws \Throwable
@@ -120,8 +120,6 @@ abstract class AbstractGateway implements GatewayInterface
             if(! $this->verify($params['data'], $params['sign']) ) {
                 throw new \Exception(($data['body']['orderCode'] ?? '') . ' 支付异步通知数据签名失败');
             }
-
-            get_logger('NOTIFY-SAND-01','api-log')->info(json_encode($data,JSON_UNESCAPED_UNICODE));
 
             $respMsg = $this->respCode($data);
             if(true !== $respMsg) {

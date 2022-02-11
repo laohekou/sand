@@ -64,13 +64,15 @@ class WechatMini extends AbstractGateway
         $this->relativeUrl = '/gateway/api/order/refund';
 
         $params = parent::orderRefund($body);
+        $data = json_encode($params);
+        unset($params);
 
         try {
             $postData = [
                 'charset'  => 'utf-8',
                 'signType' => '01',
-                'data'     => $params,
-                'sign'     => $this->app->decrypt->sign(json_encode($params))
+                'data'     => $data,
+                'sign'     => $this->app->decrypt->sign($data)
             ];
             $result = $this->curlPost($postData);
             if( isset($result['sign']) && isset($result['data']) ) {
@@ -99,13 +101,15 @@ class WechatMini extends AbstractGateway
         $this->relativeUrl = '/gateway/api/order/query';
 
         $params = parent::orderQuery($body);
+        $data = json_encode($params);
+        unset($params);
 
         try {
             $postData = [
                 'charset'  => 'utf-8',
                 'signType' => '01',
-                'data'     => $params,
-                'sign'     => $this->app->decrypt->sign(json_encode($params))
+                'data'     => $data,
+                'sign'     => $this->app->decrypt->sign($data)
             ];
             $result = $this->curlPost($postData);
             if( isset($result['sign']) && isset($result['data']) ) {
@@ -127,6 +131,44 @@ class WechatMini extends AbstractGateway
         }
     }
 
+    public function orderMcAutoNotice(array $body)
+    {
+        $this->method = 'sandpay.trade.notify';
+
+        $this->relativeUrl = '/gateway/api/order/mcAutoNotice';
+
+        $params = parent::orderMcAutoNotice($body);
+
+        $data = json_encode($params);
+        unset($params);
+
+        try {
+            $postData = [
+                'charset'  => 'utf-8',
+                'signType' => '01',
+                'data'     => $data,
+                'sign'     => $this->app->decrypt->sign($data)
+            ];
+            $result = $this->curlPost($postData);
+            if( isset($result['sign']) && isset($result['data']) ) {
+
+                if(! $this->verify($result['data'], $result['sign']) ) {
+                    throw new BusinessException('orderMcAutoNotice 小程序验证签名失败', $this);
+                }
+            }else{
+                throw new BusinessException('orderMcAutoNotice 小程序杉德数据失败', $this);
+            }
+            return json_decode($result['data'],true);
+        }catch (\Throwable $e) {
+            $newException = $e instanceof SandException ? $e : new BusinessException(
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                $this,
+                $e
+            );
+            throw $newException;
+        }
+    }
+
     public function clearfileDownload(array $body)
     {
         $this->method = 'sandpay.trade.download';
@@ -134,13 +176,15 @@ class WechatMini extends AbstractGateway
         $this->relativeUrl = '/gateway/api/clearfile/download';
 
         $params = parent::clearfileDownload($body);
+        $data = json_encode($params);
+        unset($params);
 
         try {
             $postData = [
                 'charset'  => 'utf-8',
                 'signType' => '01',
-                'data'     => $params,
-                'sign'     => $this->app->decrypt->sign(json_encode($params))
+                'data'     => $data,
+                'sign'     => $this->app->decrypt->sign($data)
             ];
             $result = $this->curlPost($postData);
             if( isset($result['sign']) && isset($result['data']) ) {
