@@ -144,22 +144,31 @@ abstract class AbstractGateway implements GatewayInterface
         return $data['head']['respMsg'] ?? '未知错误';
     }
 
-
     /**
      * 交易退货异步通知接口
-     * @param string $params
-     * @return false|string
+     * @param array $params
+     * @return array
      * @throws \Throwable
      * Author: xyu
      */
-    public function noticeRefund(string $params)
+    public function noticeRefund(array $params)
     {
         try {
-            $data = json_decode($params,true);
-            $this->verify($params, $data['data']['sign']);
-            return json_encode([
-                'respCode' => '000000'
-            ]);
+            $data = json_decode($params['data'],true);
+
+            if(! $this->verify($params['data'], $params['sign']) ) {
+                throw new \Exception(($data['body']['orderCode'] ?? '') . ' 交易退货异步通知签名失败');
+            }
+
+            $respMsg = $this->respCode($data);
+            if(true !== $respMsg) {
+                throw new \Exception(($data['body']['orderCode'] ?? '') . $respMsg);
+            }
+
+            return [
+                'params' => $params,
+                'data' => $data
+            ];
         }catch (\Throwable $e) {
             throw $e;
         }
