@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": ">=7.1",
+        "php": ">=7.0",
         "hanson/foundation-sdk": "^5.0",
         "ext-swoole": ">=4.5",
         "ext-json": "*",

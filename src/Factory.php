@@ -15,7 +15,7 @@ class Factory
         $this->config = $config;
     }
 
-    public function make(?string $name = null, ?array $config = null)
+    public function make(string $name = null, array $config = null)
     {
         $name = $name ?? 'default';
 
