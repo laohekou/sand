@@ -24,5 +24,3 @@ $app = sand_pay()->wechat_mini->orderCreate([]);
 fpm框架 调用：
 $app = sand($config)->wechat_mini->orderCreate([]);
 ```
-
-https://github.com/laohekou/sand
