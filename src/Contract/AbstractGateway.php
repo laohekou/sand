@@ -115,14 +115,14 @@ abstract class AbstractGateway implements GatewayInterface
     public function notify(array $params)
     {
         try {
-            $data = json_decode($params['data'],true);
+            $data = json_decode($params['data'], true);
 
-            if(! $this->verify($params['data'], $params['sign']) ) {
+            if (!$this->verify($params['data'], $params['sign'])) {
                 throw new \Exception(($data['body']['orderCode'] ?? '') . ' 支付异步通知数据签名失败');
             }
 
             $respMsg = $this->respCode($data);
-            if(true !== $respMsg) {
+            if (true !== $respMsg) {
                 throw new \Exception(($data['body']['orderCode'] ?? '') . $respMsg);
             }
 
@@ -130,7 +130,7 @@ abstract class AbstractGateway implements GatewayInterface
                 'params' => $params,
                 'data' => $data
             ];
-        }catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             throw $e;
         }
     }
@@ -138,7 +138,7 @@ abstract class AbstractGateway implements GatewayInterface
 
     public function respCode(array $data)
     {
-        if(isset($data['head']['respCode']) && $data['head']['respCode'] === '000000') {
+        if (isset($data['head']['respCode']) && $data['head']['respCode'] === '000000') {
             return true;
         }
         return $data['head']['respMsg'] ?? '未知错误';
@@ -154,14 +154,14 @@ abstract class AbstractGateway implements GatewayInterface
     public function noticeRefund(array $params)
     {
         try {
-            $data = json_decode($params['data'],true);
+            $data = json_decode($params['data'], true);
 
-            if(! $this->verify($params['data'], $params['sign']) ) {
+            if (!$this->verify($params['data'], $params['sign'])) {
                 throw new \Exception(($data['body']['orderCode'] ?? '') . ' 交易退货异步通知签名失败');
             }
 
             $respMsg = $this->respCode($data);
-            if(true !== $respMsg) {
+            if (true !== $respMsg) {
                 throw new \Exception(($data['body']['orderCode'] ?? '') . $respMsg);
             }
 
@@ -169,7 +169,7 @@ abstract class AbstractGateway implements GatewayInterface
                 'params' => $params,
                 'data' => $data
             ];
-        }catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             throw $e;
         }
     }
@@ -185,46 +185,37 @@ abstract class AbstractGateway implements GatewayInterface
     public function verify(string $data, string $sign)
     {
         try {
-            if(! $this->app->decrypt->verify($data, $sign) ) {
+            if (!$this->app->decrypt->verify($data, $sign)) {
                 return false;
             }
             return true;
-        }catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             throw $e;
         }
     }
 
-
+    /**
+     * curl
+     * @param array $data
+     * @return array|null
+     * @throws \Exception
+     * Author: xyu
+     */
     public function curlPost(array $data)
     {
         try {
-            if (class_exists('Hyperf\Guzzle\CoroutineHandler')) {
-                $resp = make(\Hyperf\Guzzle\ClientFactory::class)->create([
-                    'timeout' => $this->app->getTimeout(),
-                    'verify' => false,
-                ])->post(
-                    $this->app->getUrl() . $this->relativeUrl,
-                    [
-                        'form_params' => $data,
-                        'headers' => [],
-                    ]
-                )->getBody()->getContents();
-            }else{
-                $resp = $this->app->http
-                    ->setClient(
-                        new Client(['timeout' => $this->app->getTimeout()])
-                    )
-                    ->post($this->app->getUrl() . $this->relativeUrl, $data)
-                    ->getBody()->getContents();
-            }
-            if($resp) {
-                $result = $this->parseResult($resp);
-
-                return $result;
+            $resp = $this->app->http
+                ->setClient(
+                    new Client(['timeout' => $this->app->getTimeout()])
+                )
+                ->post($this->app->getUrl() . $this->relativeUrl, $data)
+                ->getBody();
+            if ($resp) {
+                return $this->parseResult($resp);
             }
             return null;
-        }catch (\Throwable $e) {
-            throw new \Exception('杉德接口请求失败：'. $e->getMessage());
+        } catch (\Throwable $e) {
+            throw new \Exception('杉德接口请求失败：' . $e->getMessage());
         }
     }
 
@@ -238,14 +229,14 @@ abstract class AbstractGateway implements GatewayInterface
     {
         $params = [
             'head' => [
-                'version'     => '1.0',
-                'method'      => $this->method,
-                'productId'   => $this->productId,
-                'accessType'  => $this->app->getAccessType(),
-                'mid'         => $this->app->getSellerMid(),
-                'plMid'       => $this->app->getPlMid(),
+                'version' => '1.0',
+                'method' => $this->method,
+                'productId' => $this->productId,
+                'accessType' => $this->app->getAccessType(),
+                'mid' => $this->app->getSellerMid(),
+                'plMid' => $this->app->getPlMid(),
                 'channelType' => $this->channelType,
-                'reqTime'     => date('YmdHis', time()),
+                'reqTime' => date('YmdHis', time()),
             ],
             'body' => $options,
         ];
