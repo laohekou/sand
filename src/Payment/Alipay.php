@@ -7,10 +7,7 @@ use Xyu\Sand\Exception\BusinessException;
 use Xyu\Sand\Exception\SandException;
 use Xyu\Sand\SandApp;
 
-/**
- * 收银台
- */
-class Pc extends AbstractGateway
+class Alipay extends AbstractGateway
 {
     protected $method;
 
@@ -21,11 +18,41 @@ class Pc extends AbstractGateway
         parent::__construct($channelType, $productId, $app);
     }
 
+    public function orderPay(array $body)
+    {
+        $this->method = 'sandpay.trade.barpay';
+
+        $this->relativeUrl = '/qr/api/order/pay';
+
+        $params = parent::orderCreate($body);
+
+        $data = json_encode($params);
+        unset($params);
+
+        try {
+            $postData = [
+                'charset'  => 'utf-8',
+                'signType' => '01',
+                'data'     => $data,
+                'sign'     => $this->app->decrypt->sign($data)
+            ];
+            $result = $this->curlPost($postData);
+            return $result;
+        }catch (\Throwable $e) {
+            $newException = $e instanceof SandException ? $e : new BusinessException(
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                $this,
+                $e
+            );
+            throw $newException;
+        }
+    }
+
     public function orderCreate(array $body)
     {
-        $this->method = 'sandpay.trade.orderCreate';
+        $this->method = 'sandpay.trade.precreate';
 
-        $this->relativeUrl = '/gw/web/order/create';
+        $this->relativeUrl = '/qr/api/order/create';
 
         $params = parent::orderCreate($body);
 
@@ -73,10 +100,10 @@ class Pc extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderRefund PC验证签名失败', $this);
+                    throw new BusinessException('orderRefund Alipay验证签名失败', $this);
                 }
             }else{
-                throw new BusinessException('orderRefund PC杉德数据失败', $this);
+                throw new BusinessException('orderRefund Alipay杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
@@ -93,7 +120,7 @@ class Pc extends AbstractGateway
     {
         $this->method = 'sandpay.trade.query';
 
-        $this->relativeUrl = '/gw/api/order/query';
+        $this->relativeUrl = '/gateway/api/order/query';
 
         $params = parent::orderQuery($body);
 
@@ -111,10 +138,10 @@ class Pc extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderQuery PC验证签名失败', $this);
+                    throw new BusinessException('orderQuery Alipay验证签名失败', $this);
                 }
             }else{
-                throw new BusinessException('orderQuery PC杉德数据失败', $this);
+                throw new BusinessException('orderQuery Alipay杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
@@ -149,10 +176,10 @@ class Pc extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderConfirmPay PC验证签名失败', $this);
+                    throw new BusinessException('orderConfirmPay Alipay验证签名失败', $this);
                 }
             }else{
-                throw new BusinessException('orderConfirmPay PC杉德数据失败', $this);
+                throw new BusinessException('orderConfirmPay Alipay杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
@@ -187,10 +214,10 @@ class Pc extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderMcAutoNotice PC验证签名失败', $this);
+                    throw new BusinessException('orderMcAutoNotice Alipay验证签名失败', $this);
                 }
             }else{
-                throw new BusinessException('orderMcAutoNotice PC杉德数据失败', $this);
+                throw new BusinessException('orderMcAutoNotice Alipay杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
@@ -207,7 +234,7 @@ class Pc extends AbstractGateway
     {
         $this->method = 'sandpay.trade.download';
 
-        $this->relativeUrl = '/gateway/api/clearfile/download';
+        $this->relativeUrl = '/qr/api/clearfile/download';
 
         $params = parent::clearfileDownload($body);
 
@@ -225,10 +252,10 @@ class Pc extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('clearfileDownload PC验证签名失败', $this);
+                    throw new BusinessException('clearfileDownload Alipay验证签名失败', $this);
                 }
             }else{
-                throw new BusinessException('clearfileDownload PC杉德数据失败', $this);
+                throw new BusinessException('clearfileDownload Alipay杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {

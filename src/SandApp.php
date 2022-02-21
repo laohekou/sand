@@ -3,8 +3,14 @@
 namespace Xyu\Sand;
 
 use Hanson\Foundation\Foundation;
+use Xyu\Sand\Payment\Alipay;
 use Xyu\Sand\Payment\AppH5;
+use Xyu\Sand\Payment\BankB2b;
+use Xyu\Sand\Payment\BankB2c;
+use Xyu\Sand\Payment\H5Quick;
 use Xyu\Sand\Payment\Pc;
+use Xyu\Sand\Payment\UnionPay;
+use Xyu\Sand\Payment\UnionPayCode;
 use Xyu\Sand\Payment\WechatMini;
 use Xyu\Sand\Payment\WechatOfficial;
 
@@ -17,6 +23,12 @@ use Xyu\Sand\Payment\WechatOfficial;
  * @property-read WechatOfficial $wechat_official
  * @property-read AppH5 $app_h5
  * @property-read Pc $pc
+ * @property-read Alipay $alipay
+ * @property-read H5Quick $h5_quick
+ * @property-read BankB2c $bank_b2c
+ * @property-read BankB2b $bank_b2b
+ * @property-read UnionPayCode $union_pay_code
+ * @property-read UnionPay $union_pay
  *
  */
 class SandApp extends Foundation

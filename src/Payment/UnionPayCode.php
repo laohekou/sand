@@ -8,9 +8,9 @@ use Xyu\Sand\Exception\SandException;
 use Xyu\Sand\SandApp;
 
 /**
- * 收银台
+ * 银联（聚合码）正扫
  */
-class Pc extends AbstractGateway
+class UnionPayCode extends AbstractGateway
 {
     protected $method;
 
@@ -23,9 +23,9 @@ class Pc extends AbstractGateway
 
     public function orderCreate(array $body)
     {
-        $this->method = 'sandpay.trade.orderCreate';
+        $this->method = 'sandpay.trade.precreate';
 
-        $this->relativeUrl = '/gw/web/order/create';
+        $this->relativeUrl = '/qr/api/order/create';
 
         $params = parent::orderCreate($body);
 
@@ -73,10 +73,10 @@ class Pc extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderRefund PC验证签名失败', $this);
+                    throw new BusinessException('orderRefund UnionPayCode验证签名失败', $this);
                 }
             }else{
-                throw new BusinessException('orderRefund PC杉德数据失败', $this);
+                throw new BusinessException('orderRefund UnionPayCode杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
@@ -93,7 +93,7 @@ class Pc extends AbstractGateway
     {
         $this->method = 'sandpay.trade.query';
 
-        $this->relativeUrl = '/gw/api/order/query';
+        $this->relativeUrl = '/gateway/api/order/query';
 
         $params = parent::orderQuery($body);
 
@@ -111,10 +111,10 @@ class Pc extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderQuery PC验证签名失败', $this);
+                    throw new BusinessException('orderQuery UnionPayCode验证签名失败', $this);
                 }
             }else{
-                throw new BusinessException('orderQuery PC杉德数据失败', $this);
+                throw new BusinessException('orderQuery UnionPayCode杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
@@ -131,7 +131,7 @@ class Pc extends AbstractGateway
     {
         $this->method = 'sandpay.trade.confirmPay';
 
-        $this->relativeUrl = '/gw/api/order/confirmPay';
+        $this->relativeUrl = '/gateway/api/order/confirmPay';
 
         $params = parent::orderConfirmPay($body);
 
@@ -149,10 +149,10 @@ class Pc extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderConfirmPay PC验证签名失败', $this);
+                    throw new BusinessException('orderConfirmPay UnionPayCode验证签名失败', $this);
                 }
             }else{
-                throw new BusinessException('orderConfirmPay PC杉德数据失败', $this);
+                throw new BusinessException('orderConfirmPay UnionPayCode杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
@@ -187,10 +187,10 @@ class Pc extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderMcAutoNotice PC验证签名失败', $this);
+                    throw new BusinessException('orderMcAutoNotice UnionPayCode验证签名失败', $this);
                 }
             }else{
-                throw new BusinessException('orderMcAutoNotice PC杉德数据失败', $this);
+                throw new BusinessException('orderMcAutoNotice UnionPayCode杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
@@ -207,7 +207,7 @@ class Pc extends AbstractGateway
     {
         $this->method = 'sandpay.trade.download';
 
-        $this->relativeUrl = '/gateway/api/clearfile/download';
+        $this->relativeUrl = '/qr/api/clearfile/download';
 
         $params = parent::clearfileDownload($body);
 
@@ -225,10 +225,10 @@ class Pc extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('clearfileDownload PC验证签名失败', $this);
+                    throw new BusinessException('clearfileDownload UnionPayCode验证签名失败', $this);
                 }
             }else{
-                throw new BusinessException('clearfileDownload PC杉德数据失败', $this);
+                throw new BusinessException('clearfileDownload UnionPayCode杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {

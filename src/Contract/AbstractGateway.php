@@ -51,6 +51,17 @@ abstract class AbstractGateway implements GatewayInterface
     }
 
     /**
+     * 下订单
+     * @param array $options
+     * @return array
+     * Author: xyu
+     */
+    public function orderPay(array $options)
+    {
+        return $this->structureData($options);
+    }
+
+    /**
      * 订单退款申请
      * @param array $options
      * @return array
