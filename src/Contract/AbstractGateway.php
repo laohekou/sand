@@ -217,7 +217,10 @@ abstract class AbstractGateway implements GatewayInterface
         try {
             $resp = $this->app->http
                 ->setClient(
-                    new Client(['timeout' => $this->app->getTimeout()])
+                    new Client([
+                        \GuzzleHttp\RequestOptions::TIMEOUT  => $this->app->getTimeout(),
+                        \GuzzleHttp\RequestOptions::VERIFY => \Composer\CaBundle\CaBundle::getSystemCaRootBundlePath()
+                    ])
                 )
                 ->post($this->app->getUrl() . $this->relativeUrl, $data)
                 ->getBody();
