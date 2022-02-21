@@ -24,7 +24,7 @@ class Alipay extends AbstractGateway
 
         $this->relativeUrl = '/qr/api/order/pay';
 
-        $params = parent::orderCreate($body);
+        $params = parent::orderPay($body);
 
         $data = json_encode($params);
         unset($params);
