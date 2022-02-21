@@ -208,7 +208,7 @@ abstract class AbstractGateway implements GatewayInterface
     /**
      * curl
      * @param array $data
-     * @return array|null
+     * @return array
      * @throws \Exception
      * Author: xyu
      */
@@ -227,7 +227,7 @@ abstract class AbstractGateway implements GatewayInterface
             if ($resp) {
                 return $this->parseResult($resp);
             }
-            return null;
+            return [];
         } catch (\Throwable $e) {
             throw new \Exception('杉德接口请求失败：' . $e->getMessage());
         }
