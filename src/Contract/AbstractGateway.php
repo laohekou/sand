@@ -259,11 +259,11 @@ abstract class AbstractGateway implements GatewayInterface
 
     /**
      * 响应数据解析
-     * @param $result
+     * @param string $result
      * @return array
      * Author: xyu
      */
-    public function parseResult($result)
+    public function parseResult(string $result)
     {
         $arr = [];
         $response = urldecode($result);
