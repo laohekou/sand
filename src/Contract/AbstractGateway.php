@@ -7,6 +7,8 @@ use Xyu\Sand\SandApp;
 
 abstract class AbstractGateway implements GatewayInterface
 {
+    const SUCCESS = '000000';
+
     /**
      * @var string
      */
@@ -146,13 +148,17 @@ abstract class AbstractGateway implements GatewayInterface
         }
     }
 
-
     public function respCode(array $data)
     {
-        if (isset($data['head']['respCode']) && $data['head']['respCode'] === '000000') {
+        if (isset($data['head']['respCode']) && $data['head']['respCode'] === $this->success()) {
             return true;
         }
         return $data['head']['respMsg'] ?? '未知错误';
+    }
+
+    public function success()
+    {
+        return self::SUCCESS;
     }
 
     /**
@@ -216,14 +222,14 @@ abstract class AbstractGateway implements GatewayInterface
     {
         try {
             $resp = $this->app->http
-                ->setClient(
-                    new Client([
-                        \GuzzleHttp\RequestOptions::TIMEOUT  => $this->app->getTimeout(),
-                        \GuzzleHttp\RequestOptions::VERIFY => \Composer\CaBundle\CaBundle::getSystemCaRootBundlePath()
-                    ])
-                )
-                ->post($this->app->getUrl() . $this->relativeUrl, $data)
-                ->getBody();
+                    ->setClient(
+                        new Client([
+                            \GuzzleHttp\RequestOptions::TIMEOUT  => $this->app->getTimeout(),
+                            \GuzzleHttp\RequestOptions::VERIFY => \Composer\CaBundle\CaBundle::getSystemCaRootBundlePath()
+                        ])
+                    )
+                    ->post($this->app->getUrl() . $this->relativeUrl, $data)
+                    ->getBody();
             if ($resp) {
                 return $this->parseResult($resp);
             }
