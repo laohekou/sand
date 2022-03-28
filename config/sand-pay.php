@@ -4,7 +4,7 @@ return [
 
     'default' => [
         // timeout
-        'timeout' => 3,
+        'timeout' => 5,
         // 商户号
         'seller_mid' => env('SAND_SELLER_MID'),
         // 商户接入类型 1-普通商户接入 2-平台商户接入 3-核心企业商户接入
