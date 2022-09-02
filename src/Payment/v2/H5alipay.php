@@ -27,7 +27,7 @@ class H5alipay extends AbstractGateway
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
                 json_encode(['H5包装支付宝生活号','message' => $e->getMessage(),'file' => $e->getFile(),'line' => $e->getLine()]),
-                null,
+                $this,
                 $e
             );
             throw $newException;
