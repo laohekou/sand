@@ -19,6 +19,13 @@ return [
         'public_key_path' => env('SAND_PUB_KEY_PATH'),
         // 私钥文件
         'private_key_path' => env('SAND_PRI_KEY_PATH'),
+
+        // 杉德新收银台
+        'h5' => [
+            'md5_key' => env('SAND_H5_MD5_KEY'),
+            'key1' => env('SAND_H5_KEY1'),
+            'key2' => env('SAND_H5_KEY2')
+        ]
     ]
 
 ];

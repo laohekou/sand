@@ -21,6 +21,9 @@ class Wechat extends AbstractGateway
         parent::__construct($channelType, $productId, $app);
     }
 
+    /**
+     * 用户被扫
+     */
     public function orderPay(array $body)
     {
         $this->method = 'sandpay.trade.barpay';
@@ -51,6 +54,9 @@ class Wechat extends AbstractGateway
         }
     }
 
+    /**
+     * 用户主扫
+     */
     public function orderCreate(array $body)
     {
         $this->method = 'sandpay.trade.precreate';
@@ -103,10 +109,10 @@ class Wechat extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderRefund Alipay验证签名失败', $this);
+                    throw new BusinessException('orderRefund Wechat验证签名失败', $this);
                 }
             }else{
-                throw new BusinessException('orderRefund Alipay杉德数据失败', $this);
+                throw new BusinessException('orderRefund Wechat杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
@@ -141,10 +147,10 @@ class Wechat extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderQuery Alipay验证签名失败', $this);
+                    throw new BusinessException('orderQuery Wechat验证签名失败', $this);
                 }
             }else{
-                throw new BusinessException('orderQuery Alipay杉德数据失败', $this);
+                throw new BusinessException('orderQuery Wechat杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
@@ -179,10 +185,10 @@ class Wechat extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderConfirmPay Alipay验证签名失败', $this);
+                    throw new BusinessException('orderConfirmPay Wechat验证签名失败', $this);
                 }
             }else{
-                throw new BusinessException('orderConfirmPay Alipay杉德数据失败', $this);
+                throw new BusinessException('orderConfirmPay Wechat杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
@@ -217,10 +223,10 @@ class Wechat extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderMcAutoNotice Alipay验证签名失败', $this);
+                    throw new BusinessException('orderMcAutoNotice Wechat验证签名失败', $this);
                 }
             }else{
-                throw new BusinessException('orderMcAutoNotice Alipay杉德数据失败', $this);
+                throw new BusinessException('orderMcAutoNotice Wechat杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
@@ -255,10 +261,10 @@ class Wechat extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('clearfileDownload Alipay验证签名失败', $this);
+                    throw new BusinessException('clearfileDownload Wechat验证签名失败', $this);
                 }
             }else{
-                throw new BusinessException('clearfileDownload Alipay杉德数据失败', $this);
+                throw new BusinessException('clearfileDownload Wechat杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {

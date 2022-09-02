@@ -10,11 +10,13 @@ use Xyu\Sand\Payment\AppH5;
 use Xyu\Sand\Payment\BankB2b;
 use Xyu\Sand\Payment\BankB2c;
 use Xyu\Sand\Payment\H5Quick;
+use Xyu\Sand\Payment\JdPay;
 use Xyu\Sand\Payment\Pc;
 use Xyu\Sand\Payment\UnionPay;
 use Xyu\Sand\Payment\UnionPayCode;
 use Xyu\Sand\Payment\v2\H5alipay;
-use Xyu\Sand\Payment\v2\H5wechatPay;
+use Xyu\Sand\Payment\v2\H5alipayCode;
+use Xyu\Sand\Payment\v2\H5wechatOfficialPay;
 use Xyu\Sand\Payment\Wechat;
 use Xyu\Sand\Payment\WechatMini;
 use Xyu\Sand\Payment\WechatOfficial;
@@ -76,12 +78,24 @@ class ServiceProvider implements ServiceProviderInterface
             return new UnionPay('07','00000013', $app);
         };
 
+        $pimple['jd_pay'] = function (SandApp $app) {
+            return new JdPay('07','00000027', $app);
+        };
+
+        $pimple['qq_pay'] = function (SandApp $app) {
+            return new JdPay('07','00000026', $app);
+        };
+
         $pimple['h5_alipay'] = function (SandApp $app) {
             return new H5alipay('08','02020002', $app);
         };
 
-        $pimple['h5_wechat_pay'] = function (SandApp $app) {
-            return new H5wechatPay('08','02010002', $app);
+        $pimple['h5_alipay_code'] = function (SandApp $app) {
+            return new H5alipayCode('08','02020005', $app);
+        };
+
+        $pimple['h5_wechat_official_pay'] = function (SandApp $app) {
+            return new H5wechatOfficialPay('08','02010002', $app);
         };
 
     }

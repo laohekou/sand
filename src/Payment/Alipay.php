@@ -21,6 +21,9 @@ class Alipay extends AbstractGateway
         parent::__construct($channelType, $productId, $app);
     }
 
+    /**
+     * 用户被扫
+     */
     public function orderPay(array $body)
     {
         $this->method = 'sandpay.trade.barpay';
@@ -40,7 +43,7 @@ class Alipay extends AbstractGateway
                 'sign'     => $this->app->decrypt->sign($data)
             ];
             $result = $this->curlPost($postData);
-            return $result;
+            return json_decode($result['data'],true);
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
                 json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
@@ -51,6 +54,9 @@ class Alipay extends AbstractGateway
         }
     }
 
+    /**
+     * 用户主扫
+     */
     public function orderCreate(array $body)
     {
         $this->method = 'sandpay.trade.precreate';
@@ -70,7 +76,7 @@ class Alipay extends AbstractGateway
                 'sign'     => $this->app->decrypt->sign($data)
             ];
             $result = $this->curlPost($postData);
-            return $result;
+            return json_decode($result['data'],true);
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
                 json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),

@@ -8,9 +8,9 @@ use Xyu\Sand\Exception\SandException;
 use Xyu\Sand\SandApp;
 
 /**
- * 网银B2B
+ * 京东钱包扫码
  */
-class BankB2b extends AbstractGateway
+class JdPay extends AbstractGateway
 {
     protected $method;
 
@@ -21,11 +21,47 @@ class BankB2b extends AbstractGateway
         parent::__construct($channelType, $productId, $app);
     }
 
+    /**
+     * 用户被扫
+     */
+    public function orderPay(array $body)
+    {
+        $this->method = 'sandpay.trade.barpay';
+
+        $this->relativeUrl = '/qr/api/order/pay';
+
+        $params = parent::orderPay($body);
+
+        $data = json_encode($params);
+        unset($params);
+
+        try {
+            $postData = [
+                'charset'  => 'utf-8',
+                'signType' => '01',
+                'data'     => $data,
+                'sign'     => $this->app->decrypt->sign($data)
+            ];
+            $result = $this->curlPost($postData);
+            return json_decode($result['data'],true);
+        }catch (\Throwable $e) {
+            $newException = $e instanceof SandException ? $e : new BusinessException(
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                $this,
+                $e
+            );
+            throw $newException;
+        }
+    }
+
+    /**
+     * 用户主扫
+     */
     public function orderCreate(array $body)
     {
-        $this->method = 'sandpay.trade.pay';
+        $this->method = 'sandpay.trade.precreate';
 
-        $this->relativeUrl = '/gateway/api/order/pay';
+        $this->relativeUrl = '/qr/api/order/create';
 
         $params = parent::orderCreate($body);
 
@@ -55,7 +91,7 @@ class BankB2b extends AbstractGateway
     {
         $this->method = 'sandpay.trade.refund';
 
-        $this->relativeUrl = '/gateway/api/order/refund';
+        $this->relativeUrl = '/gw/api/order/refund';
 
         $params = parent::orderRefund($body);
 
@@ -73,10 +109,10 @@ class BankB2b extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderRefund BankB2b验证签名失败', $this);
+                    throw new BusinessException('orderRefund  JdPay验证签名失败', $this);
                 }
             }else{
-                throw new BusinessException('orderRefund BankB2b杉德数据失败', $this);
+                throw new BusinessException('orderRefund  JdPay杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
@@ -111,10 +147,10 @@ class BankB2b extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderQuery BankB2b验证签名失败', $this);
+                    throw new BusinessException('orderQuery  JdPay验证签名失败', $this);
                 }
             }else{
-                throw new BusinessException('orderQuery BankB2b杉德数据失败', $this);
+                throw new BusinessException('orderQuery  JdPay杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
@@ -131,7 +167,7 @@ class BankB2b extends AbstractGateway
     {
         $this->method = 'sandpay.trade.confirmPay';
 
-        $this->relativeUrl = '/gateway/api/order/confirmPay';
+        $this->relativeUrl = '/gw/api/order/confirmPay';
 
         $params = parent::orderConfirmPay($body);
 
@@ -149,10 +185,10 @@ class BankB2b extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderConfirmPay BankB2b验证签名失败', $this);
+                    throw new BusinessException('orderConfirmPay  JdPay验证签名失败', $this);
                 }
             }else{
-                throw new BusinessException('orderConfirmPay BankB2b杉德数据失败', $this);
+                throw new BusinessException('orderConfirmPay  JdPay杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
@@ -187,10 +223,10 @@ class BankB2b extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderMcAutoNotice BankB2b验证签名失败', $this);
+                    throw new BusinessException('orderMcAutoNotice  JdPay验证签名失败', $this);
                 }
             }else{
-                throw new BusinessException('orderMcAutoNotice BankB2b杉德数据失败', $this);
+                throw new BusinessException('orderMcAutoNotice  JdPay杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
@@ -207,7 +243,7 @@ class BankB2b extends AbstractGateway
     {
         $this->method = 'sandpay.trade.download';
 
-        $this->relativeUrl = '/gateway/api/clearfile/download';
+        $this->relativeUrl = '/qr/api/clearfile/download';
 
         $params = parent::clearfileDownload($body);
 
@@ -225,10 +261,10 @@ class BankB2b extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('clearfileDownload BankB2b验证签名失败', $this);
+                    throw new BusinessException('clearfileDownload  JdPay验证签名失败', $this);
                 }
             }else{
-                throw new BusinessException('clearfileDownload BankB2b杉德数据失败', $this);
+                throw new BusinessException('clearfileDownload  JdPay杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {

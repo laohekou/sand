@@ -40,7 +40,7 @@ class H5Quick extends AbstractGateway
                 'sign'     => $this->app->decrypt->sign($data)
             ];
             $result = $this->curlPost($postData);
-            return $result;
+            return json_decode($result['data'],true);
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
                 json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),

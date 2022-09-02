@@ -8,10 +8,14 @@ use Xyu\Sand\Payment\AppH5;
 use Xyu\Sand\Payment\BankB2b;
 use Xyu\Sand\Payment\BankB2c;
 use Xyu\Sand\Payment\H5Quick;
+use Xyu\Sand\Payment\JdPay;
 use Xyu\Sand\Payment\Pc;
+use Xyu\Sand\Payment\QqPay;
 use Xyu\Sand\Payment\UnionPay;
 use Xyu\Sand\Payment\UnionPayCode;
 use Xyu\Sand\Payment\v2\H5alipay;
+use Xyu\Sand\Payment\v2\H5alipayCode;
+use Xyu\Sand\Payment\v2\H5wechatOfficialPay;
 use Xyu\Sand\Payment\v2\H5wechatPay;
 use Xyu\Sand\Payment\Wechat;
 use Xyu\Sand\Payment\WechatMini;
@@ -33,9 +37,12 @@ use Xyu\Sand\Payment\WechatOfficial;
  * @property-read BankB2b $bank_b2b
  * @property-read UnionPayCode $union_pay_code
  * @property-read UnionPay $union_pay
+ * @property-read JdPay $jd_pay
+ * @property-read QqPay $qq_pay
  *
- * @property-read H5wechatPay $h5_wechat_pay
+ * @property-read H5wechatOfficialPay $h5_wechat_official_pay
  * @property-read H5alipay $h5_alipay
+ * @property-read H5alipayCode $h5_alipay_code
  *
  */
 class SandApp extends Foundation
@@ -90,6 +97,21 @@ class SandApp extends Foundation
     public function getPrivateKeyPath()
     {
         return $this->getConfig('private_key_path');
+    }
+
+    public function getH5Md5Key()
+    {
+        return $this->getConfig('h5')['md5_key'];
+    }
+
+    public function getH5Key1()
+    {
+        return $this->getConfig('h5')['key1'];
+    }
+
+    public function getH5Key2()
+    {
+        return $this->getConfig('h5')['key2'];
     }
 
     public function rebind(string $id, $value)
