@@ -8,7 +8,7 @@ use Xyu\Sand\Exception\SandException;
 use Xyu\Sand\SandApp;
 
 /**
- * H5快捷支付
+ * H5银行卡快捷支付
  */
 class H5Quick extends AbstractGateway
 {

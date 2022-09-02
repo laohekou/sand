@@ -8,9 +8,9 @@ use Xyu\Sand\Exception\SandException;
 use Xyu\Sand\SandApp;
 
 /**
- * 微信小程序
+ * 微信扫码
  */
-class WechatMini extends AbstractGateway
+class Wechat extends AbstractGateway
 {
     protected $method;
 
@@ -21,11 +21,41 @@ class WechatMini extends AbstractGateway
         parent::__construct($channelType, $productId, $app);
     }
 
+    public function orderPay(array $body)
+    {
+        $this->method = 'sandpay.trade.barpay';
+
+        $this->relativeUrl = '/qr/api/order/pay';
+
+        $params = parent::orderPay($body);
+
+        $data = json_encode($params);
+        unset($params);
+
+        try {
+            $postData = [
+                'charset'  => 'utf-8',
+                'signType' => '01',
+                'data'     => $data,
+                'sign'     => $this->app->decrypt->sign($data)
+            ];
+            $result = $this->curlPost($postData);
+            return $result;
+        }catch (\Throwable $e) {
+            $newException = $e instanceof SandException ? $e : new BusinessException(
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                $this,
+                $e
+            );
+            throw $newException;
+        }
+    }
+
     public function orderCreate(array $body)
     {
-        $this->method = 'sandpay.trade.pay';
+        $this->method = 'sandpay.trade.precreate';
 
-        $this->relativeUrl = '/gateway/api/order/pay';
+        $this->relativeUrl = '/qr/api/order/create';
 
         $params = parent::orderCreate($body);
 
@@ -40,19 +70,10 @@ class WechatMini extends AbstractGateway
                 'sign'     => $this->app->decrypt->sign($data)
             ];
             $result = $this->curlPost($postData);
-            if( isset($result['sign']) && isset($result['data']) ) {
-
-                if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderCreate 小程序验证签名失败', $this);
-                }
-            }else{
-                throw new BusinessException('orderCreate 小程序杉德数据失败', $this);
-            }
-            // timeStamp package paySign appId signType nonceStr 等参数返回
-            return json_decode($result['data'],true);
+            return $result;
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
-                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()])]),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
                 $this,
                 $e
             );
@@ -64,9 +85,10 @@ class WechatMini extends AbstractGateway
     {
         $this->method = 'sandpay.trade.refund';
 
-        $this->relativeUrl = '/gateway/api/order/refund';
+        $this->relativeUrl = '/gw/api/order/refund';
 
         $params = parent::orderRefund($body);
+
         $data = json_encode($params);
         unset($params);
 
@@ -81,10 +103,10 @@ class WechatMini extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderRefund 小程序验证签名失败', $this);
+                    throw new BusinessException('orderRefund Alipay验证签名失败', $this);
                 }
             }else{
-                throw new BusinessException('orderRefund 小程序杉德数据失败', $this);
+                throw new BusinessException('orderRefund Alipay杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
@@ -104,6 +126,7 @@ class WechatMini extends AbstractGateway
         $this->relativeUrl = '/gateway/api/order/query';
 
         $params = parent::orderQuery($body);
+
         $data = json_encode($params);
         unset($params);
 
@@ -118,10 +141,48 @@ class WechatMini extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderQuery 小程序验证签名失败', $this);
+                    throw new BusinessException('orderQuery Alipay验证签名失败', $this);
                 }
             }else{
-                throw new BusinessException('orderQuery 小程序杉德数据失败', $this);
+                throw new BusinessException('orderQuery Alipay杉德数据失败', $this);
+            }
+            return json_decode($result['data'],true);
+        }catch (\Throwable $e) {
+            $newException = $e instanceof SandException ? $e : new BusinessException(
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                $this,
+                $e
+            );
+            throw $newException;
+        }
+    }
+
+    public function orderConfirmPay(array $body)
+    {
+        $this->method = 'sandpay.trade.confirmPay';
+
+        $this->relativeUrl = '/gw/api/order/confirmPay';
+
+        $params = parent::orderConfirmPay($body);
+
+        $data = json_encode($params);
+        unset($params);
+
+        try {
+            $postData = [
+                'charset'  => 'utf-8',
+                'signType' => '01',
+                'data'     => $data,
+                'sign'     => $this->app->decrypt->sign($data)
+            ];
+            $result = $this->curlPost($postData);
+            if( isset($result['sign']) && isset($result['data']) ) {
+
+                if(! $this->verify($result['data'], $result['sign']) ) {
+                    throw new BusinessException('orderConfirmPay Alipay验证签名失败', $this);
+                }
+            }else{
+                throw new BusinessException('orderConfirmPay Alipay杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
@@ -156,10 +217,10 @@ class WechatMini extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderMcAutoNotice 小程序验证签名失败', $this);
+                    throw new BusinessException('orderMcAutoNotice Alipay验证签名失败', $this);
                 }
             }else{
-                throw new BusinessException('orderMcAutoNotice 小程序杉德数据失败', $this);
+                throw new BusinessException('orderMcAutoNotice Alipay杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {
@@ -176,9 +237,10 @@ class WechatMini extends AbstractGateway
     {
         $this->method = 'sandpay.trade.download';
 
-        $this->relativeUrl = '/gateway/api/clearfile/download';
+        $this->relativeUrl = '/qr/api/clearfile/download';
 
         $params = parent::clearfileDownload($body);
+
         $data = json_encode($params);
         unset($params);
 
@@ -193,10 +255,10 @@ class WechatMini extends AbstractGateway
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('clearfileDownload 小程序验证签名失败', $this);
+                    throw new BusinessException('clearfileDownload Alipay验证签名失败', $this);
                 }
             }else{
-                throw new BusinessException('clearfileDownload 小程序杉德数据失败', $this);
+                throw new BusinessException('clearfileDownload Alipay杉德数据失败', $this);
             }
             return json_decode($result['data'],true);
         }catch (\Throwable $e) {

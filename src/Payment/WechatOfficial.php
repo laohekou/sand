@@ -7,6 +7,9 @@ use Xyu\Sand\Exception\BusinessException;
 use Xyu\Sand\Exception\SandException;
 use Xyu\Sand\SandApp;
 
+/**
+ * 微信公众号
+ */
 class WechatOfficial extends AbstractGateway
 {
     protected $method;

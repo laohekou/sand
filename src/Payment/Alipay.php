@@ -7,6 +7,9 @@ use Xyu\Sand\Exception\BusinessException;
 use Xyu\Sand\Exception\SandException;
 use Xyu\Sand\SandApp;
 
+/**
+ * 支付宝扫码
+ */
 class Alipay extends AbstractGateway
 {
     protected $method;

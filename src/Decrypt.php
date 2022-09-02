@@ -38,4 +38,40 @@ class Decrypt
         }
     }
 
+
+    public function getSignContent(array $params):string
+    {
+        ksort($params);
+
+        $stringToBeSigned = "";
+        $i = 0;
+        foreach ($params as $k => $v) {
+            if (false === $this->checkEmpty($v) && "@" != substr($v, 0, 1)) {
+
+                if ($i == 0) {
+                    $stringToBeSigned .= "$k" . "=" . "$v";
+                } else {
+                    $stringToBeSigned .= "&" . "$k" . "=" . "$v";
+                }
+                $i++;
+            }
+        }
+
+        unset ($k, $v);
+        return $stringToBeSigned;
+    }
+
+
+    public function checkEmpty($value):bool
+    {
+        if (!isset($value))
+            return true;
+        if ($value === null)
+            return true;
+        if (trim($value) === "")
+            return true;
+
+        return false;
+    }
+
 }

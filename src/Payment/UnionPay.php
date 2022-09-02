@@ -8,7 +8,7 @@ use Xyu\Sand\Exception\SandException;
 use Xyu\Sand\SandApp;
 
 /**
- * 银联反扫
+ * 银联（聚合码）反扫
  */
 class UnionPay extends AbstractGateway
 {

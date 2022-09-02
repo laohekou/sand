@@ -11,6 +11,9 @@ use Xyu\Sand\Payment\H5Quick;
 use Xyu\Sand\Payment\Pc;
 use Xyu\Sand\Payment\UnionPay;
 use Xyu\Sand\Payment\UnionPayCode;
+use Xyu\Sand\Payment\v2\H5alipay;
+use Xyu\Sand\Payment\v2\H5wechatPay;
+use Xyu\Sand\Payment\Wechat;
 use Xyu\Sand\Payment\WechatMini;
 use Xyu\Sand\Payment\WechatOfficial;
 
@@ -24,11 +27,15 @@ use Xyu\Sand\Payment\WechatOfficial;
  * @property-read AppH5 $app_h5
  * @property-read Pc $pc
  * @property-read Alipay $alipay
+ * @property-read Wechat $wechat
  * @property-read H5Quick $h5_quick
  * @property-read BankB2c $bank_b2c
  * @property-read BankB2b $bank_b2b
  * @property-read UnionPayCode $union_pay_code
  * @property-read UnionPay $union_pay
+ *
+ * @property-read H5wechatPay $h5_wechat_pay
+ * @property-read H5alipay $h5_alipay
  *
  */
 class SandApp extends Foundation

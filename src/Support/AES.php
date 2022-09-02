@@ -13,7 +13,11 @@ class AES
         try {
             $resource = openssl_pkey_get_private($pkey);
             $result   = openssl_sign($plainText, $sign, $resource);
-            openssl_free_key($resource);
+            if(PHP_VERSION < '8.0'){
+                openssl_free_key($resource);
+            }
+            unset($resource);
+
             if (!$result) throw new AesException('sign error');
             return base64_encode($sign);
         } catch (\Throwable $e) {
@@ -26,8 +30,10 @@ class AES
     {
         $resource = openssl_pkey_get_public($key);
         $result   = openssl_verify($plainText, base64_decode($sign), $resource);
-        openssl_free_key($resource);
-
+        if(PHP_VERSION < '8.0'){
+            openssl_free_key($resource);
+        }
+        unset($resource);
         if (!$result) {
             throw new AesException('公钥验签未通过,plainText:' . $plainText . '。sign:' . $sign);
         }
@@ -47,7 +53,10 @@ class AES
             $cert   = "-----BEGIN CERTIFICATE-----\n" . $cert . "-----END CERTIFICATE-----\n";
             $res    = openssl_pkey_get_public($cert);
             $detail = openssl_pkey_get_details($res);
-            openssl_free_key($res);
+            if(PHP_VERSION < '8.0'){
+                openssl_free_key($res);
+            }
+            unset($res);
             if (!$detail) {
                 throw new AesException('getPublicKey::openssl_pkey_get_details ERROR');
             }

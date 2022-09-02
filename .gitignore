@@ -1,5 +1,7 @@
 vendor
 /*.php
+/*.pem
+/*.pfx
 composer.lock
 .idea
 .DS_Store

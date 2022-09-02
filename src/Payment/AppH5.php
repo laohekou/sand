@@ -7,6 +7,9 @@ use Xyu\Sand\Exception\BusinessException;
 use Xyu\Sand\Exception\SandException;
 use Xyu\Sand\SandApp;
 
+/**
+ * 移动端收银台H5
+ */
 class AppH5 extends AbstractGateway
 {
     protected $method;
