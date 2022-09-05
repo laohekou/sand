@@ -48,6 +48,11 @@ abstract class AbstractGateway implements GatewayInterface
         $this->channelType = $channelType;
     }
 
+    /**
+     * @param string $data
+     * @return mixed
+     * @throws \Throwable
+     */
     public function request(string $data)
     {
         return $this->performRequest([
