@@ -23,7 +23,6 @@ class WechatMini extends AbstractGateway
 
     public function orderCreate(array $body)
     {
-        var_dump($this->app->getUrl());die;
         $this->method = 'sandpay.trade.pay';
 
         $this->relativeUrl = '/gateway/api/order/pay';

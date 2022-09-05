@@ -16,6 +16,7 @@ trait HttpRequests
     {
         try {
             $result = $this->curlPost($data);
+
             if( isset($result['sign']) && isset($result['data']) ) {
 
                 if(! $this->verify($result['data'], $result['sign']) ) {
