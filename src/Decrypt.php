@@ -43,15 +43,15 @@ class Decrypt
     {
         ksort($params);
 
-        $stringToBeSigned = "";
+        $stringToBeSigned = '';
         $i = 0;
         foreach ($params as $k => $v) {
-            if (false === $this->checkEmpty($v) && "@" != substr($v, 0, 1)) {
+            if (false === $this->checkEmpty($v) && '@' != substr($v, 0, 1)) {
 
                 if ($i == 0) {
-                    $stringToBeSigned .= "$k" . "=" . "$v";
+                    $stringToBeSigned .= "$k" . '=' . "$v";
                 } else {
-                    $stringToBeSigned .= "&" . "$k" . "=" . "$v";
+                    $stringToBeSigned .= '&' . "$k" . '=' . "$v";
                 }
                 $i++;
             }
@@ -68,7 +68,7 @@ class Decrypt
             return true;
         if ($value === null)
             return true;
-        if (trim($value) === "")
+        if (trim($value) === '')
             return true;
 
         return false;

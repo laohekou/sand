@@ -27,31 +27,15 @@ class WechatOfficial extends AbstractGateway
 
         $this->relativeUrl = '/gateway/api/order/pay';
 
-        $params = parent::orderCreate($body);
-
-        $data = json_encode($params);
-        unset($params);
-
         try {
-            $postData = [
-                'charset'  => 'utf-8',
-                'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
-            ];
-            $result = $this->curlPost($postData);
-            if( isset($result['sign']) && isset($result['data']) ) {
+            $this->errTraceName = ' WechatOfficial--orderCreate';
 
-                if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderCreate 公众号验证签名失败', $this);
-                }
-            }else{
-                throw new BusinessException('orderCreate 公众号杉德数据失败', $this);
-            }
-            return json_decode($result['data'],true);
+            $structData = parent::orderCreate($body);
+
+            return $this->request(json_encode($structData));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
-                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
                 $this,
                 $e
             );
@@ -65,31 +49,15 @@ class WechatOfficial extends AbstractGateway
 
         $this->relativeUrl = '/gateway/api/order/refund';
 
-        $params = parent::orderRefund($body);
-
-        $data = json_encode($params);
-        unset($params);
-
         try {
-            $postData = [
-                'charset'  => 'utf-8',
-                'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
-            ];
-            $result = $this->curlPost($postData);
-            if( isset($result['sign']) && isset($result['data']) ) {
+            $this->errTraceName = ' WechatOfficial--orderRefund';
 
-                if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderRefund 公众号验证签名失败', $this);
-                }
-            }else{
-                throw new BusinessException('orderRefund 公众号杉德数据失败', $this);
-            }
-            return json_decode($result['data'],true);
+            $structData = parent::orderRefund($body);
+
+            return $this->request(json_encode($structData));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
-                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
                 $this,
                 $e
             );
@@ -103,31 +71,15 @@ class WechatOfficial extends AbstractGateway
 
         $this->relativeUrl = '/gateway/api/order/query';
 
-        $params = parent::orderQuery($body);
-
-        $data = json_encode($params);
-        unset($params);
-
         try {
-            $postData = [
-                'charset'  => 'utf-8',
-                'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
-            ];
-            $result = $this->curlPost($postData);
-            if( isset($result['sign']) && isset($result['data']) ) {
+            $this->errTraceName = ' WechatOfficial--orderQuery';
 
-                if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderQuery 公众号验证签名失败', $this);
-                }
-            }else{
-                throw new BusinessException('orderQuery 公众号杉德数据失败', $this);
-            }
-            return json_decode($result['data'],true);
+            $structData = parent::orderQuery($body);
+
+            return $this->request(json_encode($structData));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
-                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
                 $this,
                 $e
             );
@@ -141,31 +93,15 @@ class WechatOfficial extends AbstractGateway
 
         $this->relativeUrl = '/gateway/api/order/mcAutoNotice';
 
-        $params = parent::orderMcAutoNotice($body);
-
-        $data = json_encode($params);
-        unset($params);
-
         try {
-            $postData = [
-                'charset'  => 'utf-8',
-                'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
-            ];
-            $result = $this->curlPost($postData);
-            if( isset($result['sign']) && isset($result['data']) ) {
+            $this->errTraceName = ' WechatOfficial--orderMcAutoNotice';
 
-                if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderMcAutoNotice 公众号验证签名失败', $this);
-                }
-            }else{
-                throw new BusinessException('orderMcAutoNotice 公众号杉德数据失败', $this);
-            }
-            return json_decode($result['data'],true);
+            $structData = parent::orderMcAutoNotice($body);
+
+            return $this->request(json_encode($structData));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
-                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
                 $this,
                 $e
             );
@@ -179,31 +115,15 @@ class WechatOfficial extends AbstractGateway
 
         $this->relativeUrl = '/gateway/api/clearfile/download';
 
-        $params = parent::clearfileDownload($body);
-
-        $data = json_encode($params);
-        unset($params);
-
         try {
-            $postData = [
-                'charset'  => 'utf-8',
-                'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
-            ];
-            $result = $this->curlPost($postData);
-            if( isset($result['sign']) && isset($result['data']) ) {
+            $this->errTraceName = ' WechatOfficial--clearfileDownload';
 
-                if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('clearfileDownload 公众号验证签名失败', $this);
-                }
-            }else{
-                throw new BusinessException('clearfileDownload 公众号杉德数据失败', $this);
-            }
-            return json_decode($result['data'],true);
+            $structData = parent::orderMcAutoNotice($body);
+
+            return $this->request(json_encode($structData));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
-                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
                 $this,
                 $e
             );

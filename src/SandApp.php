@@ -81,7 +81,7 @@ class SandApp extends Foundation
 
     public function getUrl()
     {
-        return $this->getConfig('url');
+        return $this->getConfig('url') ?: 'https://cashier.sandpay.com.cn';
     }
 
     public function getPrivateKeyPwd()

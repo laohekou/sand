@@ -4,10 +4,17 @@ namespace Xyu\Sand\Contract;
 
 use GuzzleHttp\Client;
 use Xyu\Sand\SandApp;
+use Xyu\Sand\Traits\HttpRequests;
 
 abstract class AbstractGateway implements GatewayInterface
 {
+    use HttpRequests {
+        request as performRequest;
+    }
+
     const SUCCESS = '000000';
+
+    protected $errTraceName;
 
     /**
      * @var string
@@ -41,11 +48,20 @@ abstract class AbstractGateway implements GatewayInterface
         $this->channelType = $channelType;
     }
 
+    public function request(string $data)
+    {
+        return $this->performRequest([
+            'charset'  => 'utf-8',
+            'signType' => '01',
+            'data'     => $data,
+            'sign'     => $this->app->decrypt->sign($data)
+        ]);
+    }
+
     /**
      * 下订单
      * @param array $options
      * @return array
-     * Author: xyu
      */
     public function orderCreate(array $options)
     {
@@ -281,7 +297,7 @@ abstract class AbstractGateway implements GatewayInterface
         $params['merch_extend_params '] = $params['merch_extend_params '] ?? null;
         $params['activity_no'] = $params['activity_no'] ?? null;
         $params['benefit_amount'] = $params['benefit_amount'] ?? null;
-        $params['meta_option'] = json_encode([
+        $params['meta_option'] = isset($params['meta_option']) ? json_encode($params['meta_option']) : json_encode([
             ['s' => 'Android', 'n' => '', 'id' => '', 'sc' => ''],
             ['s' => 'IOS', 'n' => '', 'id' => '', 'sc' => '']
         ]);
@@ -293,7 +309,7 @@ abstract class AbstractGateway implements GatewayInterface
         $params['accsplit_flag'] = $params['accsplit_flag'] ?? 'NO';
         $params['store_id'] = $params['store_id'] ?? '000000';
         $params['create_time'] = date('YmdHis');
-        $params['expire_time'] = date('YmdHis', time() + (int)$params['expire_time']);
+        $params['expire_time'] = date('YmdHis', time() + (int)($params['expire_time'] ?? 1800));
 
         $temp = $params;
         unset($temp['goods_name']);

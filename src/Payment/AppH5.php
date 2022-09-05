@@ -27,23 +27,15 @@ class AppH5 extends AbstractGateway
 
         $this->relativeUrl = '/gw/web/order/create';
 
-        $params = parent::orderCreate($body);
-
-        $data = json_encode($params);
-        unset($params);
-
         try {
-            $postData = [
-                'charset'  => 'utf-8',
-                'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
-            ];
-            $result = $this->curlPost($postData);
-            return json_decode($result['data'],true);
+            $this->errTraceName = 'AppH5--orderCreate';
+
+            $structData = parent::orderCreate($body);
+
+            return $this->request(json_encode($structData));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
-                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
                 $this,
                 $e
             );
@@ -57,31 +49,15 @@ class AppH5 extends AbstractGateway
         
         $this->relativeUrl = '/gw/api/order/refund';
 
-        $params = parent::orderRefund($body);
-
-        $data = json_encode($params);
-        unset($params);
-
         try {
-            $postData = [
-                'charset'  => 'utf-8',
-                'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
-            ];
-            $result = $this->curlPost($postData);
-            if( isset($result['sign']) && isset($result['data']) ) {
+            $this->errTraceName = 'AppH5--orderRefund';
 
-                if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderRefund H5验证签名失败', $this);
-                }
-            }else{
-                throw new BusinessException('orderRefund H5杉德数据失败', $this);
-            }
-            return json_decode($result['data'],true);
+            $structData = parent::orderRefund($body);
+
+            return $this->request(json_encode($structData));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
-                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
                 $this,
                 $e
             );
@@ -95,31 +71,15 @@ class AppH5 extends AbstractGateway
         
         $this->relativeUrl = '/gw/api/order/query';
 
-        $params = parent::orderQuery($body);
-
-        $data = json_encode($params);
-        unset($params);
-
         try {
-            $postData = [
-                'charset'  => 'utf-8',
-                'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
-            ];
-            $result = $this->curlPost($postData);
-            if( isset($result['sign']) && isset($result['data']) ) {
+            $this->errTraceName = 'AppH5--orderQuery';
 
-                if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderQuery H5验证签名失败', $this);
-                }
-            }else{
-                throw new BusinessException('orderQuery H5杉德数据失败', $this);
-            }
-            return json_decode($result['data'],true);
+            $structData = parent::orderQuery($body);
+
+            return $this->request(json_encode($structData));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
-                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
                 $this,
                 $e
             );
@@ -133,31 +93,15 @@ class AppH5 extends AbstractGateway
         
         $this->relativeUrl = '/gw/api/order/confirmPay';
 
-        $params = parent::orderConfirmPay($body);
-
-        $data = json_encode($params);
-        unset($params);
-
         try {
-            $postData = [
-                'charset'  => 'utf-8',
-                'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
-            ];
-            $result = $this->curlPost($postData);
-            if( isset($result['sign']) && isset($result['data']) ) {
+            $this->errTraceName = 'AppH5--orderConfirmPay';
 
-                if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderConfirmPay H5验证签名失败', $this);
-                }
-            }else{
-                throw new BusinessException('orderConfirmPay H5杉德数据失败', $this);
-            }
-            return json_decode($result['data'],true);
+            $structData = parent::orderConfirmPay($body);
+
+            return $this->request(json_encode($structData));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
-                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
                 $this,
                 $e
             );
@@ -171,31 +115,15 @@ class AppH5 extends AbstractGateway
         
         $this->relativeUrl = '/gateway/api/order/mcAutoNotice';
 
-        $params = parent::orderMcAutoNotice($body);
-
-        $data = json_encode($params);
-        unset($params);
-
         try {
-            $postData = [
-                'charset'  => 'utf-8',
-                'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
-            ];
-            $result = $this->curlPost($postData);
-            if( isset($result['sign']) && isset($result['data']) ) {
+            $this->errTraceName = 'AppH5--orderMcAutoNotice';
 
-                if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderMcAutoNotice H5验证签名失败', $this);
-                }
-            }else{
-                throw new BusinessException('orderMcAutoNotice H5杉德数据失败', $this);
-            }
-            return json_decode($result['data'],true);
+            $structData = parent::orderMcAutoNotice($body);
+
+            return $this->request(json_encode($structData));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
-                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
                 $this,
                 $e
             );
@@ -209,31 +137,15 @@ class AppH5 extends AbstractGateway
         
         $this->relativeUrl = '/gateway/api/clearfile/download';
 
-        $params = parent::clearfileDownload($body);
-
-        $data = json_encode($params);
-        unset($params);
-
         try {
-            $postData = [
-                'charset'  => 'utf-8',
-                'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
-            ];
-            $result = $this->curlPost($postData);
-            if( isset($result['sign']) && isset($result['data']) ) {
+            $this->errTraceName = 'AppH5--clearfileDownload';
 
-                if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('clearfileDownload H5验证签名失败', $this);
-                }
-            }else{
-                throw new BusinessException('clearfileDownload H5杉德数据失败', $this);
-            }
-            return json_decode($result['data'],true);
+            $structData = parent::clearfileDownload($body);
+
+            return $this->request(json_encode($structData));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
-                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
                 $this,
                 $e
             );

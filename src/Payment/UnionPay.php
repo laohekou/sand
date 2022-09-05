@@ -27,23 +27,15 @@ class UnionPay extends AbstractGateway
 
         $this->relativeUrl = '/qr/api/order/pay';
 
-        $params = parent::orderCreate($body);
-
-        $data = json_encode($params);
-        unset($params);
-
         try {
-            $postData = [
-                'charset'  => 'utf-8',
-                'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
-            ];
-            $result = $this->curlPost($postData);
-            return json_decode($result['data'],true);
+            $this->errTraceName = 'UnionPay--orderCreate';
+
+            $structData = parent::orderCreate($body);
+
+            return $this->request(json_encode($structData));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
-                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
                 $this,
                 $e
             );
@@ -57,31 +49,15 @@ class UnionPay extends AbstractGateway
 
         $this->relativeUrl = '/gw/api/order/refund';
 
-        $params = parent::orderRefund($body);
-
-        $data = json_encode($params);
-        unset($params);
-
         try {
-            $postData = [
-                'charset'  => 'utf-8',
-                'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
-            ];
-            $result = $this->curlPost($postData);
-            if( isset($result['sign']) && isset($result['data']) ) {
+            $this->errTraceName = 'UnionPay--orderRefund';
 
-                if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderRefund UnionPay验证签名失败', $this);
-                }
-            }else{
-                throw new BusinessException('orderRefund UnionPay杉德数据失败', $this);
-            }
-            return json_decode($result['data'],true);
+            $structData = parent::orderRefund($body);
+
+            return $this->request(json_encode($structData));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
-                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
                 $this,
                 $e
             );
@@ -95,31 +71,15 @@ class UnionPay extends AbstractGateway
 
         $this->relativeUrl = '/gateway/api/order/query';
 
-        $params = parent::orderQuery($body);
-
-        $data = json_encode($params);
-        unset($params);
-
         try {
-            $postData = [
-                'charset'  => 'utf-8',
-                'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
-            ];
-            $result = $this->curlPost($postData);
-            if( isset($result['sign']) && isset($result['data']) ) {
+            $this->errTraceName = 'UnionPay--orderQuery';
 
-                if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderQuery UnionPay验证签名失败', $this);
-                }
-            }else{
-                throw new BusinessException('orderQuery UnionPay杉德数据失败', $this);
-            }
-            return json_decode($result['data'],true);
+            $structData = parent::orderQuery($body);
+
+            return $this->request(json_encode($structData));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
-                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
                 $this,
                 $e
             );
@@ -133,31 +93,15 @@ class UnionPay extends AbstractGateway
 
         $this->relativeUrl = '/gateway/api/order/confirmPay';
 
-        $params = parent::orderConfirmPay($body);
-
-        $data = json_encode($params);
-        unset($params);
-
         try {
-            $postData = [
-                'charset'  => 'utf-8',
-                'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
-            ];
-            $result = $this->curlPost($postData);
-            if( isset($result['sign']) && isset($result['data']) ) {
+            $this->errTraceName = 'UnionPay--orderConfirmPay';
 
-                if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderConfirmPay UnionPay验证签名失败', $this);
-                }
-            }else{
-                throw new BusinessException('orderConfirmPay UnionPay杉德数据失败', $this);
-            }
-            return json_decode($result['data'],true);
+            $structData = parent::orderConfirmPay($body);
+
+            return $this->request(json_encode($structData));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
-                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
                 $this,
                 $e
             );
@@ -171,31 +115,15 @@ class UnionPay extends AbstractGateway
 
         $this->relativeUrl = '/gateway/api/order/mcAutoNotice';
 
-        $params = parent::orderMcAutoNotice($body);
-
-        $data = json_encode($params);
-        unset($params);
-
         try {
-            $postData = [
-                'charset'  => 'utf-8',
-                'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
-            ];
-            $result = $this->curlPost($postData);
-            if( isset($result['sign']) && isset($result['data']) ) {
+            $this->errTraceName = 'UnionPay--orderMcAutoNotice';
 
-                if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderMcAutoNotice UnionPay验证签名失败', $this);
-                }
-            }else{
-                throw new BusinessException('orderMcAutoNotice UnionPay杉德数据失败', $this);
-            }
-            return json_decode($result['data'],true);
+            $structData = parent::orderMcAutoNotice($body);
+
+            return $this->request(json_encode($structData));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
-                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
                 $this,
                 $e
             );
@@ -209,31 +137,15 @@ class UnionPay extends AbstractGateway
 
         $this->relativeUrl = '/qr/api/clearfile/download';
 
-        $params = parent::clearfileDownload($body);
-
-        $data = json_encode($params);
-        unset($params);
-
         try {
-            $postData = [
-                'charset'  => 'utf-8',
-                'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
-            ];
-            $result = $this->curlPost($postData);
-            if( isset($result['sign']) && isset($result['data']) ) {
+            $this->errTraceName = 'UnionPay--clearfileDownload';
 
-                if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('clearfileDownload UnionPay验证签名失败', $this);
-                }
-            }else{
-                throw new BusinessException('clearfileDownload UnionPay杉德数据失败', $this);
-            }
-            return json_decode($result['data'],true);
+            $structData = parent::clearfileDownload($body);
+
+            return $this->request(json_encode($structData));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
-                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
                 $this,
                 $e
             );

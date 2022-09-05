@@ -23,36 +23,20 @@ class WechatMini extends AbstractGateway
 
     public function orderCreate(array $body)
     {
+        var_dump($this->app->getUrl());die;
         $this->method = 'sandpay.trade.pay';
 
         $this->relativeUrl = '/gateway/api/order/pay';
 
-        $params = parent::orderCreate($body);
-
-        $data = json_encode($params);
-        unset($params);
-
         try {
-            $postData = [
-                'charset'  => 'utf-8',
-                'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
-            ];
-            $result = $this->curlPost($postData);
-            if( isset($result['sign']) && isset($result['data']) ) {
+            $this->errTraceName = 'WechatMini--orderCreate';
 
-                if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderCreate 小程序验证签名失败', $this);
-                }
-            }else{
-                throw new BusinessException('orderCreate 小程序杉德数据失败', $this);
-            }
-            // timeStamp package paySign appId signType nonceStr 等参数返回
-            return json_decode($result['data'],true);
+            $structData = parent::orderCreate($body);
+
+            return $this->request(json_encode($structData));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
-                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()])]),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
                 $this,
                 $e
             );
@@ -66,30 +50,15 @@ class WechatMini extends AbstractGateway
 
         $this->relativeUrl = '/gateway/api/order/refund';
 
-        $params = parent::orderRefund($body);
-        $data = json_encode($params);
-        unset($params);
-
         try {
-            $postData = [
-                'charset'  => 'utf-8',
-                'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
-            ];
-            $result = $this->curlPost($postData);
-            if( isset($result['sign']) && isset($result['data']) ) {
+            $this->errTraceName = 'WechatMini--orderRefund';
 
-                if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderRefund 小程序验证签名失败', $this);
-                }
-            }else{
-                throw new BusinessException('orderRefund 小程序杉德数据失败', $this);
-            }
-            return json_decode($result['data'],true);
+            $structData = parent::orderRefund($body);
+
+            return $this->request(json_encode($structData));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
-                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
                 $this,
                 $e
             );
@@ -103,30 +72,15 @@ class WechatMini extends AbstractGateway
 
         $this->relativeUrl = '/gateway/api/order/query';
 
-        $params = parent::orderQuery($body);
-        $data = json_encode($params);
-        unset($params);
-
         try {
-            $postData = [
-                'charset'  => 'utf-8',
-                'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
-            ];
-            $result = $this->curlPost($postData);
-            if( isset($result['sign']) && isset($result['data']) ) {
+            $this->errTraceName = 'WechatMini--orderQuery';
 
-                if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderQuery 小程序验证签名失败', $this);
-                }
-            }else{
-                throw new BusinessException('orderQuery 小程序杉德数据失败', $this);
-            }
-            return json_decode($result['data'],true);
+            $structData = parent::orderQuery($body);
+
+            return $this->request(json_encode($structData));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
-                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
                 $this,
                 $e
             );
@@ -140,31 +94,15 @@ class WechatMini extends AbstractGateway
 
         $this->relativeUrl = '/gateway/api/order/mcAutoNotice';
 
-        $params = parent::orderMcAutoNotice($body);
-
-        $data = json_encode($params);
-        unset($params);
-
         try {
-            $postData = [
-                'charset'  => 'utf-8',
-                'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
-            ];
-            $result = $this->curlPost($postData);
-            if( isset($result['sign']) && isset($result['data']) ) {
+            $this->errTraceName = 'WechatMini--orderMcAutoNotice';
 
-                if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('orderMcAutoNotice 小程序验证签名失败', $this);
-                }
-            }else{
-                throw new BusinessException('orderMcAutoNotice 小程序杉德数据失败', $this);
-            }
-            return json_decode($result['data'],true);
+            $structData = parent::orderMcAutoNotice($body);
+
+            return $this->request(json_encode($structData));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
-                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
                 $this,
                 $e
             );
@@ -178,30 +116,15 @@ class WechatMini extends AbstractGateway
 
         $this->relativeUrl = '/gateway/api/clearfile/download';
 
-        $params = parent::clearfileDownload($body);
-        $data = json_encode($params);
-        unset($params);
-
         try {
-            $postData = [
-                'charset'  => 'utf-8',
-                'signType' => '01',
-                'data'     => $data,
-                'sign'     => $this->app->decrypt->sign($data)
-            ];
-            $result = $this->curlPost($postData);
-            if( isset($result['sign']) && isset($result['data']) ) {
+            $this->errTraceName = 'WechatMini--clearfileDownload';
 
-                if(! $this->verify($result['data'], $result['sign']) ) {
-                    throw new BusinessException('clearfileDownload 小程序验证签名失败', $this);
-                }
-            }else{
-                throw new BusinessException('clearfileDownload 小程序杉德数据失败', $this);
-            }
-            return json_decode($result['data'],true);
+            $structData = parent::orderMcAutoNotice($body);
+
+            return $this->request(json_encode($structData));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
-                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage()]),
+                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
                 $this,
                 $e
             );
