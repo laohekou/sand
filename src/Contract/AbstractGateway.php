@@ -2,7 +2,6 @@
 
 namespace Xyu\Sand\Contract;
 
-use GuzzleHttp\Client;
 use Xyu\Sand\SandApp;
 use Xyu\Sand\Traits\HttpRequests;
 
@@ -15,6 +14,8 @@ abstract class AbstractGateway implements GatewayInterface
     const SUCCESS = '000000';
 
     protected $errTraceName;
+
+    protected $version;
 
     /**
      * @var string
@@ -233,34 +234,6 @@ abstract class AbstractGateway implements GatewayInterface
     }
 
     /**
-     * curl
-     * @param array $data
-     * @return array
-     * @throws \Exception
-     * Author: xyu
-     */
-    public function curlPost(array $data)
-    {
-        try {
-            $resp = $this->app->http
-                    ->setClient(
-                        new Client([
-                            \GuzzleHttp\RequestOptions::TIMEOUT  => $this->app->getTimeout(),
-                            \GuzzleHttp\RequestOptions::VERIFY => \Composer\CaBundle\CaBundle::getSystemCaRootBundlePath()
-                        ])
-                    )
-                    ->post($this->app->getUrl() . $this->relativeUrl, $data)
-                    ->getBody();
-            if ($resp) {
-                return $this->parseResult($resp);
-            }
-            return [];
-        } catch (\Throwable $e) {
-            throw new \Exception('杉德接口请求失败：' . $e->getMessage());
-        }
-    }
-
-    /**
      * 数据结构
      * @param array $options
      * @return array
@@ -270,7 +243,7 @@ abstract class AbstractGateway implements GatewayInterface
     {
         $params = [
             'head' => [
-                'version' => '1.0',
+                'version' => $this->getVersion() ?? '1.0',
                 'method' => $this->method,
                 'productId' => $this->productId,
                 'accessType' => $this->app->getAccessType(),
@@ -291,7 +264,7 @@ abstract class AbstractGateway implements GatewayInterface
      */
     protected function h5struct(array $params):array
     {
-        $params['version'] = '10';
+        $params['version'] = $this->getVersion() ?? '10';
         $params['product_code'] = $this->productId;
         $params['mer_no'] = $this->app->getSellerMid(); // 商户编号
         $params['mer_order_no'] = $params['orderCode']; // 商户订单号
@@ -325,6 +298,7 @@ abstract class AbstractGateway implements GatewayInterface
         unset($temp['meta_option']);
 
         $params['sign'] = strtoupper(md5($this->app->decrypt->getSignContent($temp) . '&key=' . $this->app->getH5Md5Key()));
+        unset($temp);
 
         return $params;
     }
@@ -347,6 +321,25 @@ abstract class AbstractGateway implements GatewayInterface
             $arr[$key] = $value;
         }
         return $arr;
+    }
+
+
+    public function setVersion(string $version)
+    {
+        $this->version = $version;
+        return $this;
+    }
+
+
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+
+    public function sandCalculatePrice(string $price)
+    {
+        return \sprintf('%012d', \bcmul($price, '100'));
     }
 
 }

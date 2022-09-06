@@ -20,9 +20,8 @@ class H5alipay extends AbstractGateway
     public function orderCreate(array $params)
     {
         try {
-            $params = $this->h5struct($params);
 
-            return 'https://sandcash.mixienet.com.cn/pay/h5/alipay?' . http_build_query($params); // 返回支付url
+            return 'https://sandcash.mixienet.com.cn/pay/h5/alipay?' . http_build_query($this->h5struct($params)); // 返回支付url
 
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
