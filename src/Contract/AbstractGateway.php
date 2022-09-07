@@ -239,7 +239,7 @@ abstract class AbstractGateway implements GatewayInterface
      * @return array
      * Author: xyu
      */
-    protected function structureData(array $options)
+    public function structureData(array $options)
     {
         $params = [
             'head' => [
@@ -262,7 +262,7 @@ abstract class AbstractGateway implements GatewayInterface
      * @param array $params
      * @return array
      */
-    protected function h5struct(array $params):array
+    public function h5struct(array $params):array
     {
         $params['version'] = $this->getVersion() ?? '10';
         $params['product_code'] = $this->productId;
