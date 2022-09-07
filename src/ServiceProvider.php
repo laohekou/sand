@@ -16,6 +16,13 @@ use Xyu\Sand\Payment\UnionPay;
 use Xyu\Sand\Payment\UnionPayCode;
 use Xyu\Sand\Payment\v2\H5alipay;
 use Xyu\Sand\Payment\v2\H5alipayCode;
+use Xyu\Sand\Payment\v2\H5cloud;
+use Xyu\Sand\Payment\v2\H5et;
+use Xyu\Sand\Payment\v2\H5fastPay;
+use Xyu\Sand\Payment\v2\H5qrcode;
+use Xyu\Sand\Payment\v2\H5quickToPup;
+use Xyu\Sand\Payment\v2\H5sandQrcode;
+use Xyu\Sand\Payment\v2\H5unionPay;
 use Xyu\Sand\Payment\v2\H5wechatOfficialPay;
 use Xyu\Sand\Payment\Wechat;
 use Xyu\Sand\Payment\WechatMini;
@@ -98,5 +105,34 @@ class ServiceProvider implements ServiceProviderInterface
             return new H5wechatOfficialPay('08','02010002', $app);
         };
 
+        $pimple['h5quick_top_up'] = function (SandApp $app) {
+            return new H5quickToPup('08','06030003', $app);
+        };
+
+        $pimple['h5fast_pay'] = function (SandApp $app) {
+            return new H5fastPay('08','05030001', $app);
+        };
+
+        $pimple['h5union_pay'] = function (SandApp $app) {
+            return new H5unionPay('08','06030001', $app);
+        };
+
+        $pimple['h5cloud'] = function (SandApp $app) {
+            // 开户账户页面product_code：00000001  消费C2B product_code：04010001
+            // 担保消费(C2C)product_code：04010004 消费（C2C） product_code：04010003
+            return new H5cloud('08', $app->h5cloud_product_code, $app);
+        };
+
+        $pimple['h5qrcode'] = function (SandApp $app) {
+            return new H5qrcode('07','02000001', $app);
+        };
+
+        $pimple['h5sand_qrcode'] = function (SandApp $app) {
+            return new H5sandQrcode('08','02040001', $app);
+        };
+
+        $pimple['h5et'] = function (SandApp $app) {
+            return new H5et('08','02070001', $app);
+        };
     }
 }
