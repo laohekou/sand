@@ -55,9 +55,10 @@ class Decrypt
                 }
                 $i++;
             }
+            unset ($k, $v);
         }
 
-        unset ($k, $v);
+        unset ($params);
         return $stringToBeSigned;
     }
 
