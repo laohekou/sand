@@ -41,6 +41,8 @@ class Decrypt
 
     public function getSignContent(array $params):string
     {
+        unset($params['goods_name'],$params['jump_scheme'],$params['expire_time'],$params['product_code'],$params['clear_cycle'],$params['meta_option']);
+
         ksort($params);
 
         $stringToBeSigned = '';

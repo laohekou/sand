@@ -289,16 +289,7 @@ abstract class AbstractGateway implements GatewayInterface
         $params['create_time'] = date('YmdHis');
         $params['expire_time'] = date('YmdHis', time() + (int)($params['expire_time'] ?? 1800));
 
-        $temp = $params;
-        unset($temp['goods_name']);
-        unset($temp['jump_scheme']);
-        unset($temp['expire_time']);
-        unset($temp['product_code']);
-        unset($temp['clear_cycle']);
-        unset($temp['meta_option']);
-
-        $params['sign'] = strtoupper(md5($this->app->decrypt->getSignContent($temp) . '&key=' . $this->app->getH5Md5Key()));
-        unset($temp);
+        $params['sign'] = strtoupper(md5($this->app->decrypt->getSignContent($params) . '&key=' . $this->app->getH5Md5Key()));
 
         return $params;
     }
