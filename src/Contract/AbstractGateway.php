@@ -152,7 +152,7 @@ abstract class AbstractGateway implements GatewayInterface
         try {
             $data = json_decode($params['data'], true);
 
-            if (!$this->app->decrypt->verify($params['data'], $params['sign'])) {
+            if (! $this->app->decrypt->verify($params['data'], $params['sign'])) {
                 throw new \Exception(($data['body']['orderCode'] ?? '') . ' 支付异步通知数据签名失败');
             }
 
@@ -195,7 +195,7 @@ abstract class AbstractGateway implements GatewayInterface
         try {
             $data = json_decode($params['data'], true);
 
-            if (!$this->app->decrypt->verify($params['data'], $params['sign'])) {
+            if (! $this->app->decrypt->verify($params['data'], $params['sign'])) {
                 throw new \Exception(($data['body']['orderCode'] ?? '') . ' 交易退货异步通知签名失败');
             }
 
