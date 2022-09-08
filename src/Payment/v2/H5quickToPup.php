@@ -102,7 +102,7 @@ class H5quickToPup extends AbstractGateway
         try {
             $this->errTraceName = 'H5quickToPup--clearfileDownload';
 
-            $structData = parent::orderMcAutoNotice($body);
+            $structData = parent::clearfileDownload($body);
 
             return $this->request(json_encode($structData));
         }catch (\Throwable $e) {

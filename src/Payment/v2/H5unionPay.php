@@ -102,7 +102,7 @@ class H5unionPay extends AbstractGateway
         try {
             $this->errTraceName = 'H5unionPay--clearfileDownload';
 
-            $structData = parent::orderMcAutoNotice($body);
+            $structData = parent::clearfileDownload($body);
 
             return $this->request(json_encode($structData));
         }catch (\Throwable $e) {

@@ -118,7 +118,7 @@ class WechatOfficial extends AbstractGateway
         try {
             $this->errTraceName = ' WechatOfficial--clearfileDownload';
 
-            $structData = parent::orderMcAutoNotice($body);
+            $structData = parent::clearfileDownload($body);
 
             return $this->request(json_encode($structData));
         }catch (\Throwable $e) {
