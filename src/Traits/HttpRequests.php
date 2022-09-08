@@ -20,7 +20,7 @@ trait HttpRequests
 
             if( isset($result['sign']) && isset($result['data']) ) {
 
-                if(! $this->verify($result['data'], $result['sign']) ) {
+                if(! $this->app->decrypt->verify($result['data'], $result['sign']) ) {
                     throw new BusinessException($this->errTraceName . ' verify失败', $this);
                 }
             }else{
