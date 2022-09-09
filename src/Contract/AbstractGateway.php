@@ -272,7 +272,7 @@ abstract class AbstractGateway implements GatewayInterface
         $params['extend'] = $params['extend'] ?? null;
         $params['extend_params'] = $params['extend_params'] ?? null;
         $params['limit_pay'] = $params['limit_pay'] ?? null;
-        $params['merch_extend_params '] = $params['merch_extend_params '] ?? null;
+        $params['merch_extend_params'] = $params['merch_extend_params'] ?? null;
         $params['activity_no'] = $params['activity_no'] ?? null;
         $params['benefit_amount'] = $params['benefit_amount'] ?? null;
         $params['meta_option'] = isset($params['meta_option']) ? json_encode($params['meta_option']) : json_encode([
