@@ -38,7 +38,6 @@ trait HttpRequests
      * @param array $data
      * @return array
      * @throws \Exception
-     * Author: xyu
      */
     public function curlPost(array $data)
     {

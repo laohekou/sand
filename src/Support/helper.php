@@ -5,7 +5,6 @@ if (!function_exists('sand')) {
      * 杉德支付
      * @param array $config
      * @return \Xyu\Sand\SandApp
-     * Author: xyu
      */
     function sand(array $config)
     {
@@ -20,7 +19,6 @@ if (!function_exists('sand_pay')) {
      * @return mixed|\Xyu\Sand\SandApp
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
-     * Author: xyu
      */
     function sand_pay(string $name = 'default')
     {

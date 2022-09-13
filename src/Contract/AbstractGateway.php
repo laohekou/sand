@@ -78,7 +78,6 @@ abstract class AbstractGateway implements GatewayInterface
      * 下订单
      * @param array $options
      * @return array
-     * Author: xyu
      */
     public function orderPay(array $options)
     {
@@ -89,7 +88,6 @@ abstract class AbstractGateway implements GatewayInterface
      * 订单退款申请
      * @param array $options
      * @return array
-     * Author: xyu
      */
     public function orderRefund(array $options)
     {
@@ -100,7 +98,6 @@ abstract class AbstractGateway implements GatewayInterface
      * 订单查询
      * @param array $options
      * @return array
-     * Author: xyu
      */
     public function orderQuery(array $options)
     {
@@ -111,7 +108,6 @@ abstract class AbstractGateway implements GatewayInterface
      * 订单确认收货
      * @param array $options
      * @return array
-     * Author: xyu
      */
     public function orderConfirmPay(array $options)
     {
@@ -122,7 +118,6 @@ abstract class AbstractGateway implements GatewayInterface
      * 商户自主重发异步通知
      * @param array $options
      * @return array
-     * Author: xyu
      */
     public function orderMcAutoNotice(array $options)
     {
@@ -133,7 +128,6 @@ abstract class AbstractGateway implements GatewayInterface
      * 订单对账单申请
      * @param array $options
      * @return array
-     * Author: xyu
      */
     public function clearfileDownload(array $options)
     {
@@ -145,7 +139,6 @@ abstract class AbstractGateway implements GatewayInterface
      * @param array $params
      * @return array
      * @throws \Throwable
-     * Author: xyu
      */
     public function notify(array $params)
     {
@@ -188,7 +181,6 @@ abstract class AbstractGateway implements GatewayInterface
      * @param array $params
      * @return array
      * @throws \Throwable
-     * Author: xyu
      */
     public function noticeRefund(array $params)
     {
@@ -219,7 +211,6 @@ abstract class AbstractGateway implements GatewayInterface
      * @param string $sign
      * @return bool
      * @throws \Throwable
-     * Author: xyu
      */
     public function verify(string $data, string $sign)
     {
@@ -237,7 +228,6 @@ abstract class AbstractGateway implements GatewayInterface
      * 数据结构
      * @param array $options
      * @return array
-     * Author: xyu
      */
     public function structureData(array $options)
     {
@@ -298,7 +288,6 @@ abstract class AbstractGateway implements GatewayInterface
      * 响应数据解析
      * @param string $result
      * @return array
-     * Author: xyu
      */
     public function parseResult(string $result)
     {

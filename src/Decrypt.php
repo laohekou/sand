@@ -51,9 +51,9 @@ class Decrypt
             if (false === $this->checkEmpty($v) && '@' != substr($v, 0, 1)) {
 
                 if ($i == 0) {
-                    $stringToBeSigned .= "$k" . '=' . "$v";
+                    $stringToBeSigned .= $k . '=' . $v;
                 } else {
-                    $stringToBeSigned .= '&' . "$k" . '=' . "$v";
+                    $stringToBeSigned .= '&' . $k . '=' . $v;
                 }
                 $i++;
             }
@@ -67,13 +67,9 @@ class Decrypt
 
     public function checkEmpty($value):bool
     {
-        if (!isset($value))
+        if(!isset($value) || $value === null || trim($value) === '') {
             return true;
-        if ($value === null)
-            return true;
-        if (trim($value) === '')
-            return true;
-
+        }
         return false;
     }
 
