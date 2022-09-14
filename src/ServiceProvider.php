@@ -12,6 +12,7 @@ use Xyu\Sand\Payment\BankB2c;
 use Xyu\Sand\Payment\H5Quick;
 use Xyu\Sand\Payment\JdPay;
 use Xyu\Sand\Payment\Pc;
+use Xyu\Sand\Payment\SandCode;
 use Xyu\Sand\Payment\UnionPay;
 use Xyu\Sand\Payment\UnionPayCode;
 use Xyu\Sand\Payment\v2\H5alipay;
@@ -93,6 +94,12 @@ class ServiceProvider implements ServiceProviderInterface
             return new JdPay('07','00000026', $app);
         };
 
+        $pimple['sand_code'] = function (SandApp $app) {
+            // 个人杉德宝收银台：00001000（请求产品）杉德宝-记名卡：00001001（支付工具）
+            // 杉德宝个人账户余额支付：00001002（支付工具）杉德宝-快捷：00001003（支付工具）
+            return new SandCode('07', $app->getProductCode() ?: '00001000', $app);
+        };
+
         $pimple['h5_alipay'] = function (SandApp $app) {
             return new H5alipay('08','02020002', $app);
         };
@@ -120,7 +127,7 @@ class ServiceProvider implements ServiceProviderInterface
         $pimple['h5cloud'] = function (SandApp $app) {
             // 开户账户页面product_code：00000001  消费C2B product_code：04010001
             // 担保消费(C2C)product_code：04010004 消费（C2C） product_code：04010003
-            return new H5cloud('08', $app->h5cloud_product_code, $app);
+            return new H5cloud('08', $app->getProductCode() ?: '00000001', $app);
         };
 
         $pimple['h5qrcode'] = function (SandApp $app) {

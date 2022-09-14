@@ -5,17 +5,12 @@ namespace Xyu\Sand\Payment\v2;
 use Xyu\Sand\Contract\AbstractGateway;
 use Xyu\Sand\Exception\BusinessException;
 use Xyu\Sand\Exception\SandException;
-use Xyu\Sand\SandApp;
 
 /**
  * H5端 包装支付宝生活号
  */
 class H5alipay extends AbstractGateway
 {
-    public function __construct(string $channelType, string $productCode, SandApp $app)
-    {
-        parent::__construct($channelType, $productCode, $app);
-    }
 
     public function orderCreate(array $params)
     {
@@ -35,16 +30,14 @@ class H5alipay extends AbstractGateway
 
     public function orderRefund(array $body)
     {
-        $this->method = 'sandpay.trade.refund';
-
-        $this->relativeUrl = '/gateway/api/order/refund';
-
         try {
+            $this->method = 'sandpay.trade.refund';
+
+            $this->relativeUrl = '/gateway/api/order/refund';
+
             $this->errTraceName = 'H5alipay--orderRefund';
 
-            $structData = parent::orderRefund($body);
-
-            return $this->request(json_encode($structData));
+            return $this->request(json_encode(parent::orderRefund($body)));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
                 json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
@@ -57,16 +50,14 @@ class H5alipay extends AbstractGateway
 
     public function orderQuery(array $body)
     {
-        $this->method = 'sandpay.trade.query';
-
-        $this->relativeUrl = '/gateway/api/order/query';
-
         try {
+            $this->method = 'sandpay.trade.query';
+
+            $this->relativeUrl = '/gateway/api/order/query';
+
             $this->errTraceName = 'H5alipay--orderQuery';
 
-            $structData = parent::orderQuery($body);
-
-            return $this->request(json_encode($structData));
+            return $this->request(json_encode(parent::orderQuery($body)));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
                 json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
@@ -79,16 +70,14 @@ class H5alipay extends AbstractGateway
 
     public function orderMcAutoNotice(array $body)
     {
-        $this->method = 'sandpay.trade.notify';
-
-        $this->relativeUrl = '/gateway/api/order/mcAutoNotice';
-
         try {
+            $this->method = 'sandpay.trade.notify';
+
+            $this->relativeUrl = '/gateway/api/order/mcAutoNotice';
+
             $this->errTraceName = 'H5alipay--orderMcAutoNotice';
 
-            $structData = parent::orderMcAutoNotice($body);
-
-            return $this->request(json_encode($structData));
+            return $this->request(json_encode(parent::orderMcAutoNotice($body)));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
                 json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
@@ -101,16 +90,14 @@ class H5alipay extends AbstractGateway
 
     public function clearfileDownload(array $body)
     {
-        $this->method = 'sandpay.trade.download';
-
-        $this->relativeUrl = '/gateway/api/clearfile/download';
-
         try {
+            $this->method = 'sandpay.trade.download';
+
+            $this->relativeUrl = '/gateway/api/clearfile/download';
+
             $this->errTraceName = 'H5alipay--clearfileDownload';
 
-            $structData = parent::clearfileDownload($body);
-
-            return $this->request(json_encode($structData));
+            return $this->request(json_encode(parent::clearfileDownload($body)));
         }catch (\Throwable $e) {
             $newException = $e instanceof SandException ? $e : new BusinessException(
                 json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),

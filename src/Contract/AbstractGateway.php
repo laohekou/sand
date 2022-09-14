@@ -66,72 +66,72 @@ abstract class AbstractGateway implements GatewayInterface
 
     /**
      * 下订单
-     * @param array $options
+     * @param array $body
      * @return array
      */
-    public function orderCreate(array $options)
+    public function orderCreate(array $body)
     {
-        return $this->structureData($options);
+        return $this->structureData($body);
     }
 
     /**
      * 下订单
-     * @param array $options
+     * @param array $body
      * @return array
      */
-    public function orderPay(array $options)
+    public function orderPay(array $body)
     {
-        return $this->structureData($options);
+        return $this->structureData($body);
     }
 
     /**
      * 订单退款申请
-     * @param array $options
+     * @param array $body
      * @return array
      */
-    public function orderRefund(array $options)
+    public function orderRefund(array $body)
     {
-        return $this->structureData($options);
+        return $this->structureData($body);
     }
 
     /**
      * 订单查询
-     * @param array $options
+     * @param array $body
      * @return array
      */
-    public function orderQuery(array $options)
+    public function orderQuery(array $body)
     {
-        return $this->structureData($options);
+        return $this->structureData($body);
     }
 
     /**
      * 订单确认收货
-     * @param array $options
+     * @param array $body
      * @return array
      */
-    public function orderConfirmPay(array $options)
+    public function orderConfirmPay(array $body)
     {
-        return $this->structureData($options);
+        return $this->structureData($body);
     }
 
     /**
      * 商户自主重发异步通知
-     * @param array $options
+     * @param array $body
      * @return array
      */
-    public function orderMcAutoNotice(array $options)
+    public function orderMcAutoNotice(array $body)
     {
-        return $this->structureData($options);
+        return $this->structureData($body);
     }
 
     /**
      * 订单对账单申请
-     * @param array $options
+     * @param array $body
      * @return array
      */
-    public function clearfileDownload(array $options)
+    public function clearfileDownload(array $body)
     {
-        return $this->structureData($options);
+        return $this->structureData($body);
     }
 
     /**
@@ -140,7 +140,7 @@ abstract class AbstractGateway implements GatewayInterface
      * @return array
      * @throws \Throwable
      */
-    public function notify(array $params)
+    public function notify(array $params): array
     {
         try {
             $data = json_decode($params['data'], true);
@@ -171,7 +171,7 @@ abstract class AbstractGateway implements GatewayInterface
         return $data['head']['respMsg'] ?? '未知错误';
     }
 
-    public function success()
+    public function success(): string
     {
         return self::SUCCESS;
     }
@@ -182,7 +182,7 @@ abstract class AbstractGateway implements GatewayInterface
      * @return array
      * @throws \Throwable
      */
-    public function noticeRefund(array $params)
+    public function noticeRefund(array $params): array
     {
         try {
             $data = json_decode($params['data'], true);
@@ -212,7 +212,7 @@ abstract class AbstractGateway implements GatewayInterface
      * @return bool
      * @throws \Throwable
      */
-    public function verify(string $data, string $sign)
+    public function verify(string $data, string $sign): bool
     {
         try {
             if (!$this->app->decrypt->verify($data, $sign)) {
@@ -226,12 +226,12 @@ abstract class AbstractGateway implements GatewayInterface
 
     /**
      * 数据结构
-     * @param array $options
+     * @param array $body
      * @return array
      */
-    public function structureData(array $options)
+    public function structureData(array $body): array
     {
-        $params = [
+        return [
             'head' => [
                 'version' => $this->getVersion() ?? '1.0',
                 'method' => $this->method,
@@ -242,9 +242,8 @@ abstract class AbstractGateway implements GatewayInterface
                 'channelType' => $this->channelType,
                 'reqTime' => date('YmdHis', time()),
             ],
-            'body' => $options,
+            'body' => $body,
         ];
-        return $params;
     }
 
     /**
@@ -289,7 +288,7 @@ abstract class AbstractGateway implements GatewayInterface
      * @param string $result
      * @return array
      */
-    public function parseResult(string $result)
+    public function parseResult(string $result): array
     {
         $arr = [];
         $response = urldecode($result);
@@ -304,7 +303,7 @@ abstract class AbstractGateway implements GatewayInterface
     }
 
 
-    public function setVersion(string $version)
+    public function setVersion(string $version): AbstractGateway
     {
         $this->version = $version;
         return $this;

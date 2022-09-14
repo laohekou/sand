@@ -11,6 +11,7 @@ use Xyu\Sand\Payment\H5Quick;
 use Xyu\Sand\Payment\JdPay;
 use Xyu\Sand\Payment\Pc;
 use Xyu\Sand\Payment\QqPay;
+use Xyu\Sand\Payment\SandCode;
 use Xyu\Sand\Payment\UnionPay;
 use Xyu\Sand\Payment\UnionPayCode;
 use Xyu\Sand\Payment\v2\H5alipay;
@@ -45,6 +46,7 @@ use Xyu\Sand\Payment\WechatOfficial;
  * @property-read UnionPay $union_pay
  * @property-read JdPay $jd_pay
  * @property-read QqPay $qq_pay
+ * @property-read SandCode $sand_code
  *
  * @property-read H5wechatOfficialPay $h5_wechat_official_pay
  * @property-read H5alipay $h5_alipay
@@ -63,6 +65,11 @@ class SandApp extends Foundation
     protected $providers = [
         ServiceProvider::class,
     ];
+
+    /**
+     * @var string
+     */
+    protected $product_code;
 
     public function __construct($config)
     {
@@ -127,7 +134,18 @@ class SandApp extends Foundation
         return $this->getConfig('h5')['key2'];
     }
 
-    public function rebind(string $id, $value)
+    public function setProductCode(string $productCode): SandApp
+    {
+        $this->product_code = $productCode;
+        return $this;
+    }
+
+    public function getProductCode(): string
+    {
+        return $this->product_code ?? '';
+    }
+
+    public function rebind(string $id, $value): SandApp
     {
         $this->offsetUnset($id);
         $this->offsetSet($id, $value);

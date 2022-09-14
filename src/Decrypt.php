@@ -46,28 +46,21 @@ class Decrypt
         ksort($params);
 
         $stringToBeSigned = '';
-        $i = 0;
         foreach ($params as $k => $v) {
             if (false === $this->checkEmpty($v) && '@' != substr($v, 0, 1)) {
-
-                if ($i == 0) {
-                    $stringToBeSigned .= $k . '=' . $v;
-                } else {
-                    $stringToBeSigned .= '&' . $k . '=' . $v;
-                }
-                $i++;
+                $stringToBeSigned .= '&' . $k . '=' . $v;
             }
             unset ($k, $v);
         }
 
         unset ($params);
-        return $stringToBeSigned;
+        return ltrim($stringToBeSigned,'&');
     }
 
 
     public function checkEmpty($value):bool
     {
-        if(!isset($value) || $value === null || trim($value) === '') {
+        if(! isset($value) || trim($value) === '') {
             return true;
         }
         return false;
