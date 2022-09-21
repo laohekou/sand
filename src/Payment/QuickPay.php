@@ -7,19 +7,18 @@ use Xyu\Sand\Exception\BusinessException;
 use Xyu\Sand\Exception\SandException;
 
 /**
- * H5银行卡快捷支付
+ * 一键快捷
  */
-class H5Quick extends AbstractGateway
+class QuickPay extends AbstractGateway
 {
-
     public function orderCreate(array $body)
     {
         try {
-            $this->method = 'sandpay.trade.pay';
+            $this->method = 'sandPay.fastPay.quickPay.index';
 
-            $this->relativeUrl = '/gateway/api/order/pay';
+            $this->relativeUrl = '/fastPay/quickPay/index';
 
-            $this->errTraceName = 'H5Quick--orderCreate';
+            $this->errTraceName = 'QuickPay--orderCreate';
 
             return $this->request(json_encode(parent::orderCreate($body)));
         }catch (\Throwable $e) {
@@ -39,7 +38,7 @@ class H5Quick extends AbstractGateway
 
             $this->relativeUrl = '/gateway/api/order/refund';
 
-            $this->errTraceName = 'H5Quick--orderRefund';
+            $this->errTraceName = 'QuickPay--orderRefund';
 
             return $this->request(json_encode(parent::orderRefund($body)));
         }catch (\Throwable $e) {
@@ -59,7 +58,7 @@ class H5Quick extends AbstractGateway
 
             $this->relativeUrl = '/gateway/api/order/query';
 
-            $this->errTraceName = 'H5Quick--orderQuery';
+            $this->errTraceName = 'QuickPay--orderQuery';
 
             return $this->request(json_encode(parent::orderQuery($body)));
         }catch (\Throwable $e) {
@@ -79,7 +78,7 @@ class H5Quick extends AbstractGateway
 
             $this->relativeUrl = '/gateway/api/order/mcAutoNotice';
 
-            $this->errTraceName = 'H5Quick--orderMcAutoNotice';
+            $this->errTraceName = 'QuickPay--orderMcAutoNotice';
 
             return $this->request(json_encode(parent::orderMcAutoNotice($body)));
         }catch (\Throwable $e) {
@@ -99,7 +98,7 @@ class H5Quick extends AbstractGateway
 
             $this->relativeUrl = '/gateway/api/clearfile/download';
 
-            $this->errTraceName = 'H5Quick--clearfileDownload';
+            $this->errTraceName = 'QuickPay--clearfileDownload';
 
             return $this->request(json_encode(parent::clearfileDownload($body)));
         }catch (\Throwable $e) {
@@ -111,5 +110,4 @@ class H5Quick extends AbstractGateway
             throw $newException;
         }
     }
-
 }

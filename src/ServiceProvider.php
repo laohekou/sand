@@ -7,14 +7,17 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Xyu\Sand\Payment\Alipay;
 use Xyu\Sand\Payment\AppH5;
+use Xyu\Sand\Payment\BackQuickPay;
 use Xyu\Sand\Payment\BankB2b;
 use Xyu\Sand\Payment\BankB2c;
 use Xyu\Sand\Payment\H5Quick;
 use Xyu\Sand\Payment\JdPay;
 use Xyu\Sand\Payment\Pc;
+use Xyu\Sand\Payment\QuickPay;
 use Xyu\Sand\Payment\SandCode;
 use Xyu\Sand\Payment\UnionPay;
 use Xyu\Sand\Payment\UnionPayCode;
+use Xyu\Sand\Payment\UnionSdkPay;
 use Xyu\Sand\Payment\v2\H5alipay;
 use Xyu\Sand\Payment\v2\H5alipayCode;
 use Xyu\Sand\Payment\v2\H5cloud;
@@ -86,12 +89,24 @@ class ServiceProvider implements ServiceProviderInterface
             return new UnionPay('07','00000013', $app);
         };
 
+        $pimple['union_sdk_pay'] = function (SandApp $app) {
+            return new UnionSdkPay('08','00000030', $app);
+        };
+
         $pimple['jd_pay'] = function (SandApp $app) {
             return new JdPay('07','00000027', $app);
         };
 
         $pimple['qq_pay'] = function (SandApp $app) {
             return new JdPay('07','00000026', $app);
+        };
+
+        $pimple['quick_pay'] = function (SandApp $app) {
+            return new QuickPay('07','00000016', $app);
+        };
+
+        $pimple['back_quick_pay'] = function (SandApp $app) {
+            return new BackQuickPay('07','00000018', $app);
         };
 
         $pimple['sand_code'] = function (SandApp $app) {

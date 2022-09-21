@@ -7,9 +7,9 @@ use Xyu\Sand\Exception\BusinessException;
 use Xyu\Sand\Exception\SandException;
 
 /**
- * H5银行卡快捷支付
+ * 银联SDK
  */
-class H5Quick extends AbstractGateway
+class UnionSdkPay extends AbstractGateway
 {
 
     public function orderCreate(array $body)
@@ -19,7 +19,7 @@ class H5Quick extends AbstractGateway
 
             $this->relativeUrl = '/gateway/api/order/pay';
 
-            $this->errTraceName = 'H5Quick--orderCreate';
+            $this->errTraceName = 'UnionSdkPay--orderCreate';
 
             return $this->request(json_encode(parent::orderCreate($body)));
         }catch (\Throwable $e) {
@@ -39,7 +39,7 @@ class H5Quick extends AbstractGateway
 
             $this->relativeUrl = '/gateway/api/order/refund';
 
-            $this->errTraceName = 'H5Quick--orderRefund';
+            $this->errTraceName = 'UnionSdkPay--orderRefund';
 
             return $this->request(json_encode(parent::orderRefund($body)));
         }catch (\Throwable $e) {
@@ -59,7 +59,7 @@ class H5Quick extends AbstractGateway
 
             $this->relativeUrl = '/gateway/api/order/query';
 
-            $this->errTraceName = 'H5Quick--orderQuery';
+            $this->errTraceName = 'UnionSdkPay--orderQuery';
 
             return $this->request(json_encode(parent::orderQuery($body)));
         }catch (\Throwable $e) {
@@ -79,7 +79,7 @@ class H5Quick extends AbstractGateway
 
             $this->relativeUrl = '/gateway/api/order/mcAutoNotice';
 
-            $this->errTraceName = 'H5Quick--orderMcAutoNotice';
+            $this->errTraceName = 'UnionSdkPay--orderMcAutoNotice';
 
             return $this->request(json_encode(parent::orderMcAutoNotice($body)));
         }catch (\Throwable $e) {
@@ -99,7 +99,7 @@ class H5Quick extends AbstractGateway
 
             $this->relativeUrl = '/gateway/api/clearfile/download';
 
-            $this->errTraceName = 'H5Quick--clearfileDownload';
+            $this->errTraceName = 'UnionSdkPay--clearfileDownload';
 
             return $this->request(json_encode(parent::clearfileDownload($body)));
         }catch (\Throwable $e) {

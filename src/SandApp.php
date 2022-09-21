@@ -5,15 +5,18 @@ namespace Xyu\Sand;
 use Hanson\Foundation\Foundation;
 use Xyu\Sand\Payment\Alipay;
 use Xyu\Sand\Payment\AppH5;
+use Xyu\Sand\Payment\BackQuickPay;
 use Xyu\Sand\Payment\BankB2b;
 use Xyu\Sand\Payment\BankB2c;
 use Xyu\Sand\Payment\H5Quick;
 use Xyu\Sand\Payment\JdPay;
 use Xyu\Sand\Payment\Pc;
 use Xyu\Sand\Payment\QqPay;
+use Xyu\Sand\Payment\QuickPay;
 use Xyu\Sand\Payment\SandCode;
 use Xyu\Sand\Payment\UnionPay;
 use Xyu\Sand\Payment\UnionPayCode;
+use Xyu\Sand\Payment\UnionSdkPay;
 use Xyu\Sand\Payment\v2\H5alipay;
 use Xyu\Sand\Payment\v2\H5alipayCode;
 use Xyu\Sand\Payment\v2\H5cloud;
@@ -44,9 +47,12 @@ use Xyu\Sand\Payment\WechatOfficial;
  * @property-read BankB2b $bank_b2b
  * @property-read UnionPayCode $union_pay_code
  * @property-read UnionPay $union_pay
+ * @property-read UnionSdkPay $union_sdk_pay
  * @property-read JdPay $jd_pay
  * @property-read QqPay $qq_pay
  * @property-read SandCode $sand_code
+ * @property-read QuickPay $quick_pay
+ * @property-read BackQuickPay $back_quick_pay
  *
  * @property-read H5wechatOfficialPay $h5_wechat_official_pay
  * @property-read H5alipay $h5_alipay

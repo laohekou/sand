@@ -97,26 +97,6 @@ class QqPay extends AbstractGateway
         }
     }
 
-    public function orderConfirmPay(array $body)
-    {
-        try {
-            $this->method = 'sandpay.trade.confirmPay';
-
-            $this->relativeUrl = '/gw/api/order/confirmPay';
-
-            $this->errTraceName = 'QqPay--orderConfirmPay';
-
-            return $this->request(json_encode(parent::orderConfirmPay($body)));
-        }catch (\Throwable $e) {
-            $newException = $e instanceof SandException ? $e : new BusinessException(
-                json_encode(['method' => $this->method, 'relativeUrl' => $this->relativeUrl, 'errMsg' => $e->getMessage(), $e->getLine()]),
-                $this,
-                $e
-            );
-            throw $newException;
-        }
-    }
-
     public function orderMcAutoNotice(array $body)
     {
         try {
